@@ -12,9 +12,24 @@ namespace FIONA
     public class FtpServer
     {
         private TcpListener _listener;
+        private bool _connectionStarted;
+
+        public bool connectionStarted
+        {
+            get
+            {
+                return _connectionStarted;
+            }
+            set
+            {
+                _connectionStarted = value;
+            }
+        }
+
 
         public FtpServer()
         {
+            connectionStarted = false;
         }
 
         public void Start()
@@ -22,6 +37,7 @@ namespace FIONA
             _listener = new TcpListener(IPAddress.Any, 21);
             _listener.Start();
             _listener.BeginAcceptTcpClient(HandleAcceptTcpClient, _listener);
+            connectionStarted = true;
         }
 
         public void Stop()
@@ -29,6 +45,7 @@ namespace FIONA
             if (_listener != null)
             {
                 _listener.Stop();
+                connectionStarted = false;
             }
         }
 

@@ -15,8 +15,7 @@ namespace FIONA
     public partial class Form1 : Form
 
     {
-        private FolderBrowserDialog rootPicker;
-
+        FtpServer test_server = new FtpServer();
 
         public Form1()
         {
@@ -80,20 +79,39 @@ namespace FIONA
             */
         }
 
+
         private void ButtonShareStart_Click(object sender, EventArgs e)
+        ////////////////////////////////////////////////////////////////////////////////////
+        /// the name of this needs to change to reflect it is now a start/stop button
+        ////////////////////////////////////////////////////////////////////////////////////
         {
-            if (Properties.Settings.Default.rootAppVar == "null")
+            if (test_server.connectionStarted == false)
             {
-                string message = "Sorry, no share folder selected.  Please select a share folder before serving.";
-                MessageBox.Show(message);
+                if (Properties.Settings.Default.rootAppVar == "null")
+                {
+                    string message = "Sorry, no share folder selected.  Please select a share folder before serving.";
+                    MessageBox.Show(message);
+                }
+                else
+                {
+                    test_server.Start();
+                    if (test_server.connectionStarted)
+                    {
+                        buttonShareStart.ForeColor = Color.OrangeRed;
+                        buttonShareStart.BackColor = Color.DarkRed;
+                        buttonShareStart.Text = "Stop Sharing";
+                    }
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    // counting on Kyle here to reference the application variable in the FtpServer class
+                    /////////////////////////////////////////////////////////////////////////////////////
+                }
             }
             else
             {
-                FtpServer test_server = new FtpServer();
-                test_server.Start();
-                ////////////////////////////////////////////////////////////////////////////////////
-                // counting on Kyle here to reference the application variable in the FtpServer class
-                /////////////////////////////////////////////////////////////////////////////////////
+                test_server.Stop();
+                buttonShareStart.BackColor = Color.ForestGreen;
+                buttonShareStart.ForeColor = Color.GreenYellow;
+                buttonShareStart.Text = "Stop Sharing";
             }
         }
 

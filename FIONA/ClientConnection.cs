@@ -32,6 +32,7 @@ namespace FIONA
         private StreamReader _dataReader;
         private StreamWriter _dataWriter;
 
+
         public ClientConnection(TcpClient client)
         {
             _controlClient = client;

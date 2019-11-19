@@ -42,9 +42,9 @@
             this.buttonShareMain = new System.Windows.Forms.Button();
             this.buttonConnectMain = new System.Windows.Forms.Button();
             this.panelConnect = new System.Windows.Forms.Panel();
-            this.buttonConnectBack = new System.Windows.Forms.Button();
             this.panelConnectList = new System.Windows.Forms.Panel();
             this.labelNoShared = new System.Windows.Forms.Label();
+            this.buttonConnectBack = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.labelLoginText = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -97,7 +97,7 @@
             this.labelSharedFolders.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelSharedFolders.Location = new System.Drawing.Point(91, 278);
             this.labelSharedFolders.Name = "labelSharedFolders";
-            this.labelSharedFolders.Size = new System.Drawing.Size(788, 74);
+            this.labelSharedFolders.Size = new System.Drawing.Size(394, 37);
             this.labelSharedFolders.TabIndex = 9;
             this.labelSharedFolders.Text = "Selected Folders to Share:";
             // 
@@ -229,27 +229,14 @@
             // 
             // panelConnect
             // 
-            this.panelConnect.Controls.Add(this.buttonConnectBack);
             this.panelConnect.Controls.Add(this.panelConnectList);
+            this.panelConnect.Controls.Add(this.buttonConnectBack);
             this.panelConnect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelConnect.Location = new System.Drawing.Point(0, 0);
             this.panelConnect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelConnect.Name = "panelConnect";
             this.panelConnect.Size = new System.Drawing.Size(1323, 870);
             this.panelConnect.TabIndex = 4;
-            // 
-            // buttonConnectBack
-            // 
-            this.buttonConnectBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonConnectBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonConnectBack.Location = new System.Drawing.Point(19, 19);
-            this.buttonConnectBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.buttonConnectBack.Name = "buttonConnectBack";
-            this.buttonConnectBack.Size = new System.Drawing.Size(1287, 112);
-            this.buttonConnectBack.TabIndex = 4;
-            this.buttonConnectBack.Text = "Go Back";
-            this.buttonConnectBack.UseVisualStyleBackColor = true;
-            this.buttonConnectBack.Click += new System.EventHandler(this.button4_Click);
             // 
             // panelConnectList
             // 
@@ -271,6 +258,19 @@
             this.labelNoShared.Size = new System.Drawing.Size(1103, 51);
             this.labelNoShared.TabIndex = 0;
             this.labelNoShared.Text = "There are no files currently being shared by your devices";
+            // 
+            // buttonConnectBack
+            // 
+            this.buttonConnectBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonConnectBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonConnectBack.Location = new System.Drawing.Point(19, 19);
+            this.buttonConnectBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonConnectBack.Name = "buttonConnectBack";
+            this.buttonConnectBack.Size = new System.Drawing.Size(1287, 112);
+            this.buttonConnectBack.TabIndex = 4;
+            this.buttonConnectBack.Text = "Go Back";
+            this.buttonConnectBack.UseVisualStyleBackColor = true;
+            this.buttonConnectBack.Click += new System.EventHandler(this.button4_Click);
             // 
             // textBox1
             // 
