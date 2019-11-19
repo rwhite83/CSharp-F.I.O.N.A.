@@ -11,11 +11,11 @@ namespace FIONA
 {
     public class FtpServer
     {
-        Form1 _app;
+        Application _app;
         private TcpListener _listener;
         private string _root;
 
-        public FtpServer(Form1 app, string root)
+        public FtpServer(Application app, string root)
         {
             _app = app;
             _root = root;
