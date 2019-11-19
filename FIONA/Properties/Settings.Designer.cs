@@ -33,5 +33,17 @@ namespace FIONA.Properties {
                 return ((string)(this["FIONA_dbConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("null")]
+        public string rootAppVar {
+            get {
+                return ((string)(this["rootAppVar"]));
+            }
+            set {
+                this["rootAppVar"] = value;
+            }
+        }
     }
 }
