@@ -12,11 +12,13 @@ using System.Windows.Forms;
 
 namespace FIONA
 {
-    public partial class Form1 : Form
+    public partial class Application : Form
 
     {
         FtpServer test_server;
         private bool _connectionStarted;
+        private string sorry = "Sorry about that...";
+        private string notice = "Just so you know...";
 
         public bool connectionStarted
         {
@@ -30,7 +32,7 @@ namespace FIONA
             }
         }
 
-        public Form1()
+        public Application()
         {
             InitializeComponent();
             _connectionStarted = false;
@@ -38,12 +40,17 @@ namespace FIONA
 
         private void button2_Click(object sender, EventArgs e)
         {
+            string help = "A Login System is currently in development.  You are being forwarded in as a generic user.";
+            MessageBox.Show(help, notice);
             panelMainMenu.BringToFront();
         }
 
         private void buttonConnectMain_Click(object sender, EventArgs e)
         {
-            panelConnect.BringToFront();
+            string help = "Sorry, this feature still in development.Check back soon!";
+            MessageBox.Show(help, sorry);
+            panelMainMenu.BringToFront();
+            //panelConnect.BringToFront();
         }
 
         private void buttonShareMain_Click(object sender, EventArgs e)
@@ -68,11 +75,13 @@ namespace FIONA
 
         private void Button1_Click(object sender, EventArgs e)
         {
-
+            string help = "A Login System is currently in development.  You are being forwarded in as a generic user.";
+            MessageBox.Show(help, notice);
             panelMainMenu.BringToFront();
 
             //////////////////////////////////////////////////////////////////////////////
             // depracated until we develop more core functionality
+            // I originally conceived this in Azure, but large costs forced me out
             //////////////////////////////////////////////////////////////////////////////
             
             /*
@@ -94,17 +103,14 @@ namespace FIONA
         }
 
 
-        private void ButtonShareStart_Click(object sender, EventArgs e)
-        ////////////////////////////////////////////////////////////////////////////////////
-        /// the name of this needs to change to reflect it is now a start/stop button
-        ////////////////////////////////////////////////////////////////////////////////////
+        private void ButtonShareStartStop_Click(object sender, EventArgs e)
         {
             if (!_connectionStarted)
             {
                 if (Properties.Settings.Default.rootAppVar == "null")
                 {
-                    string message = "Sorry, no share folder selected.  Please select a share folder before serving.";
-                    MessageBox.Show(message);
+                    string help = "Whoops!  Please select a share folder before attempting to start sharing.";
+                    MessageBox.Show(help, sorry);
                 }
                 else
                 {
@@ -112,25 +118,23 @@ namespace FIONA
                     test_server = new FtpServer(this, Properties.Settings.Default.rootAppVar);
                     if (!_connectionStarted)
                     {
-                        buttonShareStart.ForeColor = Color.OrangeRed;
-                        buttonShareStart.BackColor = Color.DarkRed;
+                        buttonShareStartStop.ForeColor = Color.OrangeRed;
+                        buttonShareStartStop.BackColor = Color.DarkRed;
                         labelStatus.Text = "Server Status: Online";
-                        buttonShareStart.Text = "Stop Sharing";
+                        buttonShareStartStop.Text = "Stop Sharing";
                         _connectionStarted = true;
                         test_server.Start();
                     }
-                    ////////////////////////////////////////////////////////////////////////////////////
-                    // counting on Kyle here to reference the application variable in the FtpServer class
-                    /////////////////////////////////////////////////////////////////////////////////////
                 }
             }
             else
             {
+                Console.WriteLine("shutting down server");
                 test_server.Stop();
-                buttonShareStart.BackColor = Color.ForestGreen;
-                buttonShareStart.ForeColor = Color.GreenYellow;
+                buttonShareStartStop.BackColor = Color.ForestGreen;
+                buttonShareStartStop.ForeColor = Color.GreenYellow;
                 labelStatus.Text = "Server Status: Offline";
-                buttonShareStart.Text = "Stop Sharing";
+                buttonShareStartStop.Text = "Stop Sharing";
                 _connectionStarted = false;
             }
         }
@@ -140,9 +144,8 @@ namespace FIONA
 
             if (Properties.Settings.Default.rootAppVar != "null")
             {
-                string folderAlreadySelectedMessage = "Sorry, only one folder can be shared currently.  Would you like to change your current share folder?";
-                string areYouSure = "Are you sure?";
-                DialogResult dialogResult = MessageBox.Show(folderAlreadySelectedMessage, areYouSure, MessageBoxButtons.YesNo);
+                string folderAlreadySelectedMessage = "Sorry, currently only one folder can be shared.  Would you like to change your current share folder?";
+                DialogResult dialogResult = MessageBox.Show(folderAlreadySelectedMessage, sorry, MessageBoxButtons.YesNo);
                 if(dialogResult == DialogResult.Yes)
                 {
                     FolderBrowserDialog rootPicker = new FolderBrowserDialog();
@@ -150,10 +153,8 @@ namespace FIONA
 
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(rootPicker.SelectedPath))
                     {
-                        // below used for testing a good path
-                        // MessageBox.Show(rootPicker.SelectedPath);
-
                         Properties.Settings.Default.rootAppVar = rootPicker.SelectedPath;
+                        Properties.Settings.Default.Save();
                         labelFolderList.Text = Properties.Settings.Default.rootAppVar;
                     }
                 }
@@ -165,13 +166,16 @@ namespace FIONA
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(rootPicker.SelectedPath))
                 {
-                    // below used for testing a good path
-                    // MessageBox.Show(rootPicker.SelectedPath);
-
                     Properties.Settings.Default.rootAppVar = rootPicker.SelectedPath;
                     labelFolderList.Text = Properties.Settings.Default.rootAppVar;
                 }
             }
+        }
+
+        private void Label1_Click(object sender, EventArgs e)
+        {
+            string help = "A Login System is currently in development.  Check back later!";
+            MessageBox.Show(help, sorry);
         }
     }
 }

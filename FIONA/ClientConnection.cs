@@ -5,10 +5,7 @@ using System.IO;
 using System.Text;
 using System.Net.Sockets;
 using System.Net;
-////using log4net;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Security;
-//using Microsoft.RuleEngine;
+
 
 
 namespace FIONA
@@ -149,23 +146,11 @@ namespace FIONA
 
         private string Password(string password)
         {
-            if (true)
-            {
-                return "230 User logged in";
-            }
-            else
-            {
-                return "530 Not logged in";
-            }
+            return "230 User logged in";
         }
 
         private string Port(string hostPort)
         {
-
-            Console.WriteLine("alkjfla;dkfjl;dkfjsdklfjads;lfkdslkfjdsfl;");
-
-            // _dataConnectionType = DataConnectionType.Active;
-
             string[] ipAndPort = hostPort.Split(',');
 
             byte[] ipAddress = new byte[4];
@@ -235,8 +220,6 @@ namespace FIONA
             pathname = new DirectoryInfo(Path.Combine(_currentDirectory, pathname)).FullName;
             Console.WriteLine(pathname);
 
-            //if (IsPathValid(pathname))
-            //{
             if (!conn_type_passive)
             {
                 Console.WriteLine("test2");
@@ -316,14 +299,6 @@ namespace FIONA
 
         private string Retrieve(string pathname)
         {
-            /*
-            pathname = NormalizeFilename(pathname);
-
-            if (IsPathValid(pathname))
-            {
-                if (File.Exists(pathname))
-                {
-                */
             if (!conn_type_passive)
             {
                 _dataClient = new TcpClient();
@@ -335,10 +310,6 @@ namespace FIONA
             }
 
             return string.Format("150 Opening {0} mode data transfer for RETR", conn_type_passive ? "passive" : "active");
-            /*     }
-             }
-
-            return "550 File Not Found";*/
         }
 
         private void DoRetrieve(IAsyncResult result)
@@ -351,7 +322,6 @@ namespace FIONA
             {
                 _dataClient = _passiveListener.EndAcceptTcpClient(result);
             }
-
 
             string pathname = Path.Combine(_currentDirectory, (string)result.AsyncState);
 
@@ -377,7 +347,6 @@ namespace FIONA
                 output.Write(buffer, 0, count);
                 total += count;
             }
-
             return total;
         }
 
@@ -398,7 +367,6 @@ namespace FIONA
                     }
                 }
             }
-
             return total;
         }
 
@@ -453,7 +421,6 @@ namespace FIONA
                         break;
                 }
             }
-
             return response;
         }
 
@@ -494,7 +461,6 @@ namespace FIONA
                     _currentDirectory = _root;
                 }
             }
-
             return "200 OK";
         }
 
@@ -511,7 +477,6 @@ namespace FIONA
 
             return "257 " + _currentDirectory;
         }
-
         #endregion
     }
 }
