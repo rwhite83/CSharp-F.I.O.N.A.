@@ -33,8 +33,11 @@ namespace FIONA
         private StreamWriter _dataWriter;
 
 
-        public ClientConnection(TcpClient client)
+        public ClientConnection(TcpClient client, string root)
         {
+            _currentDirectory = root;
+            _root = root;
+
             _controlClient = client;
 
             _controlStream = _controlClient.GetStream();
@@ -248,9 +251,6 @@ namespace FIONA
             }
 
             return string.Format("150 Opening {0} mode data transfer for LIST", conn_type_passive ? ": passive" : ": active");
-            //}
-
-            //            return "450 Requested file action not taken";
         }
 
         private void DoList(IAsyncResult result)
@@ -266,6 +266,7 @@ namespace FIONA
 
             string pathname = (string)result.AsyncState;
             Console.WriteLine("DoList pathname: " + pathname);
+
 
             using (NetworkStream dataStream = _dataClient.GetStream())
             {

@@ -15,11 +15,25 @@ namespace FIONA
     public partial class Form1 : Form
 
     {
-        FtpServer test_server = new FtpServer();
+        FtpServer test_server;
+        private bool _connectionStarted;
+
+        public bool connectionStarted
+        {
+            get
+            {
+                return _connectionStarted;
+            }
+            set
+            {
+                _connectionStarted = value;
+            }
+        }
 
         public Form1()
         {
             InitializeComponent();
+            _connectionStarted = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -85,7 +99,7 @@ namespace FIONA
         /// the name of this needs to change to reflect it is now a start/stop button
         ////////////////////////////////////////////////////////////////////////////////////
         {
-            if (test_server.connectionStarted == false)
+            if (!_connectionStarted)
             {
                 if (Properties.Settings.Default.rootAppVar == "null")
                 {
@@ -94,12 +108,16 @@ namespace FIONA
                 }
                 else
                 {
-                    test_server.Start();
-                    if (test_server.connectionStarted)
+                    Console.WriteLine("starting server");
+                    test_server = new FtpServer(this, Properties.Settings.Default.rootAppVar);
+                    if (!_connectionStarted)
                     {
                         buttonShareStart.ForeColor = Color.OrangeRed;
                         buttonShareStart.BackColor = Color.DarkRed;
+                        labelStatus.Text = "Server Status: Online";
                         buttonShareStart.Text = "Stop Sharing";
+                        _connectionStarted = true;
+                        test_server.Start();
                     }
                     ////////////////////////////////////////////////////////////////////////////////////
                     // counting on Kyle here to reference the application variable in the FtpServer class
@@ -111,7 +129,9 @@ namespace FIONA
                 test_server.Stop();
                 buttonShareStart.BackColor = Color.ForestGreen;
                 buttonShareStart.ForeColor = Color.GreenYellow;
+                labelStatus.Text = "Server Status: Offline";
                 buttonShareStart.Text = "Stop Sharing";
+                _connectionStarted = false;
             }
         }
 

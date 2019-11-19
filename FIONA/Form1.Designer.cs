@@ -108,9 +108,9 @@
             this.labelStatus.Location = new System.Drawing.Point(23, 179);
             this.labelStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(505, 51);
+            this.labelStatus.Size = new System.Drawing.Size(431, 51);
             this.labelStatus.TabIndex = 7;
-            this.labelStatus.Text = "Server is currently Offline";
+            this.labelStatus.Text = "Server Status: Offline";
             // 
             // button3
             // 
@@ -160,7 +160,7 @@
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(1287, 112);
             this.buttonBack.TabIndex = 3;
-            this.buttonBack.Text = "Go Back / Stop Sharing";
+            this.buttonBack.Text = "Go Back";
             this.buttonBack.UseVisualStyleBackColor = true;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 

@@ -11,25 +11,14 @@ namespace FIONA
 {
     public class FtpServer
     {
+        Form1 _app;
         private TcpListener _listener;
-        private bool _connectionStarted;
+        private string _root;
 
-        public bool connectionStarted
+        public FtpServer(Form1 app, string root)
         {
-            get
-            {
-                return _connectionStarted;
-            }
-            set
-            {
-                _connectionStarted = value;
-            }
-        }
-
-
-        public FtpServer()
-        {
-            connectionStarted = false;
+            _app = app;
+            _root = root;
         }
 
         public void Start()
@@ -37,7 +26,6 @@ namespace FIONA
             _listener = new TcpListener(IPAddress.Any, 21);
             _listener.Start();
             _listener.BeginAcceptTcpClient(HandleAcceptTcpClient, _listener);
-            connectionStarted = true;
         }
 
         public void Stop()
@@ -45,18 +33,20 @@ namespace FIONA
             if (_listener != null)
             {
                 _listener.Stop();
-                connectionStarted = false;
             }
         }
 
         private void HandleAcceptTcpClient(IAsyncResult result)
         {
-            _listener.BeginAcceptTcpClient(HandleAcceptTcpClient, _listener);
-            TcpClient client = _listener.EndAcceptTcpClient(result);
+            if (_app.connectionStarted)
+            {
+                _listener.BeginAcceptTcpClient(HandleAcceptTcpClient, _listener);
+                TcpClient client = _listener.EndAcceptTcpClient(result);
 
-            ClientConnection connection = new ClientConnection(client);
+                ClientConnection connection = new ClientConnection(client, _root);
 
-            ThreadPool.QueueUserWorkItem(connection.HandleClient, client);
+                ThreadPool.QueueUserWorkItem(connection.HandleClient, client);
+            }
         }
     }
 }
