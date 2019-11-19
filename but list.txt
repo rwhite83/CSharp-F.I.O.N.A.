@@ -1,0 +1,3 @@
+start/stop/start/stop crashes (not a timing issue)
+filezilla when accessing shared folder only shows first word in folder title if spaces in title
+when downloading, asked to overwrite (possibly related to operating on same computer?)
