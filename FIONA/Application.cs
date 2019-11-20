@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
+
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FIONA
@@ -20,6 +13,9 @@ namespace FIONA
         private string sorry = "Sorry about that...";
         private string notice = "Just so you know...";
 
+        /// <summary>
+        /// a property to keep track of whether or not the system is currently sharing
+        /// </summary>
         public bool connectionStarted
         {
             get
@@ -32,56 +28,85 @@ namespace FIONA
             }
         }
 
+        /// <summary>
+        /// entry point of the program (application constructor)
+        /// sets connection status to false
+        /// </summary>
         public Application()
         {
             InitializeComponent();
             _connectionStarted = false;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Alerts the user that they are bypassing a future login system when they pass through
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonLogin_Click(object sender, EventArgs e)
         {
             string help = "A Login System is currently in development.  You are being forwarded in as a generic user.";
             MessageBox.Show(help, notice);
             panelMainMenu.BringToFront();
         }
 
+        /// <summary>
+        /// Alerts the user that this feature is not currently available
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonConnectMain_Click(object sender, EventArgs e)
         {
-            string help = "Sorry, this feature still in development.Check back soon!";
+            string help = "Sorry, this feature still in development.  Check back soon!";
             MessageBox.Show(help, sorry);
             panelMainMenu.BringToFront();
+            // below is what this button is supposed to do when feature built
             //panelConnect.BringToFront();
         }
 
+        /// <summary>
+        /// brings share panel to front
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonShareMain_Click(object sender, EventArgs e)
         {
             panelShare.BringToFront();
         }
 
+        /// <summary>
+        /// brings main menu panel to front
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonBack_Click(object sender, EventArgs e)
         {
             panelMainMenu.BringToFront();
         }
+        
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            panelMainMenu.BringToFront();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonLogout_Click(object sender, EventArgs e)
         {
             panelEntry.BringToFront();
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// this function should handle login events, but presently just passes user through to the next panel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSignup_Click(object sender, EventArgs e)
         {
-            string help = "A Login System is currently in development.  You are being forwarded in as a generic user.";
-            MessageBox.Show(help, notice);
-            panelMainMenu.BringToFront();
-
+            buttonLogin_Click(sender, e);
             //////////////////////////////////////////////////////////////////////////////
             // depracated until we develop more core functionality
             // I originally conceived this in Azure, but large costs forced me out
+            // leaving in because most of the logic will be reusable
             //////////////////////////////////////////////////////////////////////////////
             
             /*
@@ -102,16 +127,23 @@ namespace FIONA
             */
         }
 
-
+        /// <summary>
+        /// handles starting and stopping serving
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonShareStartStop_Click(object sender, EventArgs e)
         {
             if (!_connectionStarted)
             {
+                // checks if a folder has already been set
                 if (Properties.Settings.Default.rootAppVar == "null")
                 {
                     string help = "Whoops!  Please select a share folder before attempting to start sharing.";
                     MessageBox.Show(help, sorry);
                 }
+                // if not, instantializes FtpServer object and launces connection
                 else
                 {
                     Console.WriteLine("starting server");
@@ -121,12 +153,18 @@ namespace FIONA
                         buttonShareStartStop.ForeColor = Color.OrangeRed;
                         buttonShareStartStop.BackColor = Color.DarkRed;
                         labelStatus.Text = "Server Status: Online";
+                        labelStatusConnectShare.Text = "Server Status: Online";
+                        labelStatusConnectShare.ForeColor = Color.GreenYellow;
+                        labelStatusConnectShare.BackColor = Color.ForestGreen;
+                        labelStatus.ForeColor = Color.GreenYellow;
+                        labelStatus.BackColor = Color.ForestGreen;
                         buttonShareStartStop.Text = "Stop Sharing";
                         _connectionStarted = true;
                         test_server.Start();
                     }
                 }
             }
+            // if server already started, clicking the button shuts down the server
             else
             {
                 Console.WriteLine("shutting down server");
@@ -134,18 +172,29 @@ namespace FIONA
                 buttonShareStartStop.BackColor = Color.ForestGreen;
                 buttonShareStartStop.ForeColor = Color.GreenYellow;
                 labelStatus.Text = "Server Status: Offline";
+                labelStatusConnectShare.Text = "Server Status: Offline";
+                labelStatusConnectShare.ForeColor = Color.OrangeRed;
+                labelStatusConnectShare.BackColor = Color.DarkRed;
+                labelStatus.ForeColor = Color.OrangeRed;
+                labelStatus.BackColor = Color.DarkRed;
                 buttonShareStartStop.Text = "Stop Sharing";
                 _connectionStarted = false;
             }
         }
 
+        /// <summary>
+        /// sets or resets the folder which will be shared
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonAddShared_Click(object sender, EventArgs e)
         {
-
+            // first checks if a folder is already set
             if (Properties.Settings.Default.rootAppVar != "null")
             {
                 string folderAlreadySelectedMessage = "Sorry, currently only one folder can be shared.  Would you like to change your current share folder?";
                 DialogResult dialogResult = MessageBox.Show(folderAlreadySelectedMessage, sorry, MessageBoxButtons.YesNo);
+                // if user wishes to override existing share, sets new share folder
                 if(dialogResult == DialogResult.Yes)
                 {
                     FolderBrowserDialog rootPicker = new FolderBrowserDialog();
@@ -154,11 +203,11 @@ namespace FIONA
                     if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(rootPicker.SelectedPath))
                     {
                         Properties.Settings.Default.rootAppVar = rootPicker.SelectedPath;
-                        Properties.Settings.Default.Save();
                         labelFolderList.Text = Properties.Settings.Default.rootAppVar;
                     }
                 }
             }
+            // proceeds without interrruption if no folder already set
             else
             {
                 FolderBrowserDialog rootPicker = new FolderBrowserDialog();
@@ -172,7 +221,12 @@ namespace FIONA
             }
         }
 
-        private void Label1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// alerts user that the function they are trying to access is not yet developed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LabelMoreInfo_Click(object sender, EventArgs e)
         {
             string help = "A Login System is currently in development.  Check back later!";
             MessageBox.Show(help, sorry);

@@ -1,3 +1,4 @@
 start/stop/start/stop crashes (not a timing issue)
 filezilla when accessing shared folder only shows first word in folder title if spaces in title
-when downloading, asked to overwrite (possibly related to operating on same computer?)
+when downloading, asked to overwrite after timeout (likely related to no download complete signal being sent)
+folder not saved between sessions --> will be fixed automatically with proper login database

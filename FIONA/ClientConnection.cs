@@ -23,31 +23,38 @@ namespace FIONA
         private TcpListener _passiveListener;
         private bool conn_type_passive;
         private IPEndPoint _dataEndpoint;
-        private string _currentDirectory = "C:\\fiona";
-        private string _root = "C:\\fiona";
+        private string _currentDirectory;
+        private string _root;
         private TcpClient _dataClient;
         private StreamReader _dataReader;
         private StreamWriter _dataWriter;
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="client">client passed from calling ftp server</param>
+        /// <param name="root">folder passed in which clients can access</param>
         public ClientConnection(TcpClient client, string root)
         {
+            // setting class parameters
             _currentDirectory = root;
             _root = root;
-
             _controlClient = client;
-
             _controlStream = _controlClient.GetStream();
-
+            // establishing stream readers and writers
             _controlReader = new StreamReader(_controlStream);
             _controlWriter = new StreamWriter(_controlStream);
         }
 
+        /// <summary>
+        /// this function handles requests from client
+        /// first is parses the type of request, then routes to the appropriate class function
+        /// </summary>
+        /// <param name="obj"></param>
         public void HandleClient(object obj)
         {
             _controlWriter.WriteLine("220 Service Ready.");
             _controlWriter.Flush();
-
 
             string line;
 
@@ -55,10 +62,9 @@ namespace FIONA
             {
                 while (!string.IsNullOrEmpty(line = _controlReader.ReadLine()))
                 {
+                    // process request
                     string response = null;
-
                     string[] command = line.Split(' ');
-
                     string cmd = command[0].ToUpperInvariant();
                     string arguments = command.Length > 1 ? line.Substring(command[0].Length + 1) : null;
 
@@ -67,6 +73,7 @@ namespace FIONA
 
                     if (response == null)
                     {
+                        // handles different types of requests from the client and redirects
                         Console.WriteLine("" + cmd);
                         switch (cmd)
                         {
@@ -105,17 +112,17 @@ namespace FIONA
                             case "RETR":
                                 response = Retrieve(arguments);
                                 break;
-
                             default:
                                 response = "502 Command not implemented";
                                 break;
                         }
                     }
-
+                    // checks control client status and breaks out if required
                     if (_controlClient == null || !_controlClient.Connected)
                     {
                         break;
                     }
+                    // otherwise writes response
                     else
                     {
                         _controlWriter.WriteLine(response);
@@ -137,6 +144,13 @@ namespace FIONA
 
         #region FTP Commands
 
+        /// <summary>
+        /// this will need a robust programming when login is implemented
+        /// will need to check if user matches logging in user
+        /// currently just passes back a confirmation
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         private string User(string username)
         {
             _username = username;
@@ -144,18 +158,31 @@ namespace FIONA
             return "331 Username ok, need password";
         }
 
+        /// <summary>
+        /// this will need a robust programming when login is implemented
+        /// will need to check if password matches user
+        /// currently just passes back a confirmation
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private string Password(string password)
         {
             return "230 User logged in";
         }
 
+        /// <summary>
+        /// handles and processes the incoming port (active connection)
+        /// </summary>
+        /// <param name="hostPort">passed in port to be processed and linked to</param>
+        /// <returns></returns>
         private string Port(string hostPort)
         {
+            // separating passed in string
             string[] ipAndPort = hostPort.Split(',');
-
             byte[] ipAddress = new byte[4];
             byte[] port = new byte[2];
 
+            // converts addess parts to bytes
             for (int i = 0; i < 4; i++)
             {
                 ipAddress[i] = Convert.ToByte(ipAndPort[i]);
@@ -166,28 +193,30 @@ namespace FIONA
                 port[i - 4] = Convert.ToByte(ipAndPort[i]);
             }
 
+            //checks for endianess
             if (BitConverter.IsLittleEndian)
+            {
                 Array.Reverse(port);
-
-            IPAddress wubbs = new IPAddress(ipAddress);
+            }
 
             for (int i = 0; i < port.Length; i++)
             {
                 Console.WriteLine(port[i]);
             }
 
-            ushort wtf = (ushort)BitConverter.ToInt16(port, 0);
-
-
-            _dataEndpoint = new IPEndPoint(new IPAddress(ipAddress), wtf);
+            // creating an end point
+            ushort new_port = (ushort)BitConverter.ToInt16(port, 0);
+            _dataEndpoint = new IPEndPoint(new IPAddress(ipAddress), new_port);
 
             return "200 Data Connection Established";
-
         }
 
+        /// <summary>
+        /// handles a passive type connection
+        /// </summary>
+        /// <returns></returns>
         private string Passive()
         {
-
             conn_type_passive = true;
 
             IPAddress localAddress = ((IPEndPoint)_controlClient.Client.LocalEndPoint).Address;
@@ -209,6 +238,11 @@ namespace FIONA
                           address[0], address[1], address[2], address[3], portArray[0], portArray[1]);
         }
 
+        /// <summary>
+        /// lists the contents of the file path provided
+        /// </summary>
+        /// <param name="pathname">provided file path</param>
+        /// <returns></returns>
         private string List(string pathname)
         {
             Console.WriteLine("List command pathname: " + pathname);
@@ -236,6 +270,10 @@ namespace FIONA
             return string.Format("150 Opening {0} mode data transfer for LIST", conn_type_passive ? ": passive" : ": active");
         }
 
+        /// <summary>
+        /// this function actually transmits the data
+        /// </summary>
+        /// <param name="result"></param>
         private void DoList(IAsyncResult result)
         {
             if (!conn_type_passive)
@@ -250,7 +288,7 @@ namespace FIONA
             string pathname = (string)result.AsyncState;
             Console.WriteLine("DoList pathname: " + pathname);
 
-
+            // creates read and write streams and handles the data transfer chunk by chunk
             using (NetworkStream dataStream = _dataClient.GetStream())
             {
                 _dataReader = new StreamReader(dataStream, Encoding.ASCII);
@@ -275,6 +313,7 @@ namespace FIONA
 
                 IEnumerable<string> files = Directory.EnumerateFiles(pathname);
 
+                // stamps new files with parameters
                 foreach (string file in files)
                 {
                     FileInfo f = new FileInfo(file);
@@ -288,7 +327,6 @@ namespace FIONA
                     _dataWriter.WriteLine(line);
                     _dataWriter.Flush();
                 }
-
                 _dataClient.Close();
                 _dataClient = null;
 
@@ -297,6 +335,11 @@ namespace FIONA
             }
         }
 
+        /// <summary>
+        /// opens port for data retrieval
+        /// </summary>
+        /// <param name="pathname"></param>
+        /// <returns></returns>
         private string Retrieve(string pathname)
         {
             if (!conn_type_passive)
@@ -312,6 +355,10 @@ namespace FIONA
             return string.Format("150 Opening {0} mode data transfer for RETR", conn_type_passive ? "passive" : "active");
         }
 
+        /// <summary>
+        /// creates a file stream based on given parameters
+        /// </summary>
+        /// <param name="result">response from client</param>
         private void DoRetrieve(IAsyncResult result)
         {
             if (!conn_type_passive)
@@ -336,6 +383,14 @@ namespace FIONA
             }
         }
 
+        /// <summary>
+        /// cuts up 'image' data to be transferred into smaller chunks to send
+        /// puts all data in a byte array buffer, and transmits piece by piece
+        /// </summary>
+        /// <param name="input">the input stram</param>
+        /// <param name="output">the output stream</param>
+        /// <param name="bufferSize">the buffer size</param>
+        /// <returns></returns>
         private static long CopyStream(Stream input, Stream output, int bufferSize)
         {
             byte[] buffer = new byte[bufferSize];
@@ -350,6 +405,14 @@ namespace FIONA
             return total;
         }
 
+        /// <summary>
+        /// cuts up ascii data to be transferred into smaller chunks to send
+        /// puts all data in a byte array buffer, and transmits piece by piece
+        /// </summary>
+        /// <param name="input">the input stram</param>
+        /// <param name="output">the output stream</param>
+        /// <param name="bufferSize">the buffer size</param>
+        /// <returns></returns>
         private static long CopyStreamAscii(Stream input, Stream output, int bufferSize)
         {
             char[] buffer = new char[bufferSize];
@@ -370,6 +433,12 @@ namespace FIONA
             return total;
         }
 
+        /// <summary>
+        /// discriminates between ascii and 'image' data type transfers
+        /// </summary>
+        /// <param name="input">the input stram</param>
+        /// <param name="output">the output stream</param>
+        /// <returns></returns>
         private long CopyStream(Stream input, Stream output)
         {
             if (_transferType == "I")
@@ -382,13 +451,22 @@ namespace FIONA
             }
         }
 
-
-
+        /// <summary>
+        /// confirms file path is valid relative to the root
+        /// </summary>
+        /// <param name="path">passed in file path</param>
+        /// <returns></returns>
         private bool IsPathValid(string path)
         {
             return path.StartsWith(_root);
         }
 
+        /// <summary>
+        /// discriminates between tehe types of coedes passed in
+        /// </summary>
+        /// <param name="typeCode">first element of the split args array</param>
+        /// <param name="formatControl">second element of the split args aray or null</param>
+        /// <returns></returns>
         private string Type(string typeCode, string formatControl)
         {
             string response = "500 ERROR";
@@ -424,6 +502,11 @@ namespace FIONA
             return response;
         }
 
+        /// <summary>
+        /// handles navigation to a different directory if requested
+        /// </summary>
+        /// <param name="pathname">passed in pathway</param>
+        /// <returns></returns>
         private string ChangeWorkingDirectory(string pathname)
         {
             if (pathname == "/")
@@ -433,7 +516,7 @@ namespace FIONA
             else
             {
                 string newDir;
-
+                // formatting the file path
                 if (pathname.StartsWith("/", StringComparison.OrdinalIgnoreCase))
                 {
                     pathname = pathname.Substring(1).Replace('/', '\\');
@@ -464,6 +547,10 @@ namespace FIONA
             return "200 OK";
         }
 
+        /// <summary>
+        /// prints the working directory back to client
+        /// </summary>
+        /// <returns></returns>
         private string PrintWorkingDirectory()
         {
             Console.WriteLine(_currentDirectory);
