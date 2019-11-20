@@ -1,0 +1,5 @@
+on logout
+	if server running
+		warn that logging out will terminate connection and ask for confirmation
+		if no do nothing
+		if yes, terminate and bring back to login screen
