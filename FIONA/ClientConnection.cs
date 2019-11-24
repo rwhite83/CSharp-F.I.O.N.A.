@@ -260,11 +260,11 @@ namespace FIONA
 
                 _dataClient = new TcpClient();
                 Console.WriteLine(_dataEndpoint.Address);
-                _dataClient.BeginConnect(_dataEndpoint.Address, _dataEndpoint.Port, DoList, pathname);
+                _dataClient.BeginConnect(_dataEndpoint.Address, _dataEndpoint.Port, DoList, _currentDirectory);
             }
             else
             {
-                _passiveListener.BeginAcceptTcpClient(DoList, pathname);
+                _passiveListener.BeginAcceptTcpClient(DoList, _currentDirectory);
             }
 
             return string.Format("150 Opening {0} mode data transfer for LIST", conn_type_passive ? ": passive" : ": active");
@@ -286,6 +286,7 @@ namespace FIONA
             }
 
             string pathname = (string)result.AsyncState;
+            //string pathname = @"C:\Users\a00791498\.dia";
             Console.WriteLine("DoList pathname: " + pathname);
 
             // creates read and write streams and handles the data transfer chunk by chunk
@@ -298,7 +299,7 @@ namespace FIONA
 
                 foreach (string dir in directories)
                 {
-                    Console.WriteLine("DoList dir" + dir);
+                    Console.WriteLine("DoList dir " + dir);
                     DirectoryInfo d = new DirectoryInfo(dir);
 
                     string date = d.LastWriteTime < DateTime.Now - TimeSpan.FromDays(180) ?
@@ -325,7 +326,7 @@ namespace FIONA
                     string line = string.Format("-rw-r--r--    2 2003     2003     {0,8} {1} {2}", f.Length, date, f.Name);
 
                     _dataWriter.WriteLine(line);
-                    _dataWriter.Flush();
+                    //_dataWriter.Flush();
                 }
                 _dataClient.Close();
                 _dataClient = null;
