@@ -1,6 +1,7 @@
 ﻿using System;
 
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace FIONA
@@ -57,11 +58,11 @@ namespace FIONA
         /// <param name="e"></param>
         private void buttonConnectMain_Click(object sender, EventArgs e)
         {
-            string help = "Sorry, this feature still in development.  Check back soon!";
-            MessageBox.Show(help, sorry);
-            panelMainMenu.BringToFront();
+            //string help = "Sorry, this feature still in development.  Check back soon!";
+            //MessageBox.Show(help, sorry);
+            //panelMainMenu.BringToFront();
             // below is what this button is supposed to do when feature built
-            //panelConnect.BringToFront();
+            panelConnect.BringToFront();
         }
 
         /// <summary>
@@ -230,6 +231,21 @@ namespace FIONA
         {
             string help = "A Login System is currently in development.  Check back later!";
             MessageBox.Show(help, sorry);
+        }
+
+        private void temp_downloadButton(object sender, EventArgs e)
+        {
+            ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
+            client.download("Transcript.pdf", @"C:\fiona\NewFolder\Transcript.pdf");
+        }
+
+        private void temp_getListing(object sender, EventArgs e)
+        {
+            ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
+            //client.directoryListSimple(@"C:\fiona");
+
+            string[] simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
+            for (int i = 0; i < simpleDirectoryListing.Count(); i++) { Console.WriteLine(simpleDirectoryListing[i]); }
         }
     }
 }

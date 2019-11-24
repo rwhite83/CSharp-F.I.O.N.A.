@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientConnection.cs" />
+    <Compile Include="ftpClient.cs" />
     <Compile Include="FtpServer.cs" />
     <Compile Include="FIONA_dbDataSet.Designer.cs">
       <AutoGen>True</AutoGen>

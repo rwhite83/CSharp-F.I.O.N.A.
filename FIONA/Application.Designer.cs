@@ -44,6 +44,8 @@
             this.buttonConnectMain = new System.Windows.Forms.Button();
             this.panelConnect = new System.Windows.Forms.Panel();
             this.panelConnectList = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.labelNoShared = new System.Windows.Forms.Label();
             this.buttonConnectBack = new System.Windows.Forms.Button();
             this.textBoxUsername = new System.Windows.Forms.TextBox();
@@ -74,9 +76,8 @@
             this.panelShare.Controls.Add(this.buttonBack);
             this.panelShare.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelShare.Location = new System.Drawing.Point(0, 0);
-            this.panelShare.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelShare.Name = "panelShare";
-            this.panelShare.Size = new System.Drawing.Size(1323, 870);
+            this.panelShare.Size = new System.Drawing.Size(882, 557);
             this.panelShare.TabIndex = 7;
             // 
             // labelFolderList
@@ -84,9 +85,10 @@
             this.labelFolderList.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.labelFolderList.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.labelFolderList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFolderList.Location = new System.Drawing.Point(44, 352);
+            this.labelFolderList.Location = new System.Drawing.Point(29, 225);
+            this.labelFolderList.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelFolderList.Name = "labelFolderList";
-            this.labelFolderList.Size = new System.Drawing.Size(1237, 258);
+            this.labelFolderList.Size = new System.Drawing.Size(825, 165);
             this.labelFolderList.TabIndex = 10;
             this.labelFolderList.Text = "No folder currently set to share";
             // 
@@ -95,9 +97,10 @@
             this.labelSharedFolders.AutoSize = true;
             this.labelSharedFolders.BackColor = System.Drawing.SystemColors.Control;
             this.labelSharedFolders.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSharedFolders.Location = new System.Drawing.Point(79, 296);
+            this.labelSharedFolders.Location = new System.Drawing.Point(53, 189);
+            this.labelSharedFolders.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelSharedFolders.Name = "labelSharedFolders";
-            this.labelSharedFolders.Size = new System.Drawing.Size(378, 37);
+            this.labelSharedFolders.Size = new System.Drawing.Size(234, 25);
             this.labelSharedFolders.TabIndex = 9;
             this.labelSharedFolders.Text = "Selected Folder to Share:";
             // 
@@ -107,20 +110,18 @@
             this.labelStatus.BackColor = System.Drawing.Color.DarkRed;
             this.labelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelStatus.ForeColor = System.Drawing.Color.OrangeRed;
-            this.labelStatus.Location = new System.Drawing.Point(504, 109);
-            this.labelStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelStatus.Location = new System.Drawing.Point(336, 70);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(642, 73);
+            this.labelStatus.Size = new System.Drawing.Size(397, 46);
             this.labelStatus.TabIndex = 7;
             this.labelStatus.Text = "Server Status: Offline";
             // 
             // buttonAddShared
             // 
             this.buttonAddShared.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAddShared.Location = new System.Drawing.Point(124, 685);
-            this.buttonAddShared.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonAddShared.Location = new System.Drawing.Point(83, 438);
             this.buttonAddShared.Name = "buttonAddShared";
-            this.buttonAddShared.Size = new System.Drawing.Size(523, 100);
+            this.buttonAddShared.Size = new System.Drawing.Size(349, 64);
             this.buttonAddShared.TabIndex = 5;
             this.buttonAddShared.Text = "Select Share Folder";
             this.buttonAddShared.UseVisualStyleBackColor = true;
@@ -131,10 +132,9 @@
             this.buttonShareStartStop.BackColor = System.Drawing.Color.ForestGreen;
             this.buttonShareStartStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonShareStartStop.ForeColor = System.Drawing.Color.GreenYellow;
-            this.buttonShareStartStop.Location = new System.Drawing.Point(925, 648);
-            this.buttonShareStartStop.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonShareStartStop.Location = new System.Drawing.Point(617, 415);
             this.buttonShareStartStop.Name = "buttonShareStartStop";
-            this.buttonShareStartStop.Size = new System.Drawing.Size(356, 198);
+            this.buttonShareStartStop.Size = new System.Drawing.Size(237, 127);
             this.buttonShareStartStop.TabIndex = 1;
             this.buttonShareStartStop.Text = "Start Sharing";
             this.buttonShareStartStop.UseVisualStyleBackColor = false;
@@ -143,10 +143,9 @@
             // buttonBack
             // 
             this.buttonBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonBack.Location = new System.Drawing.Point(55, 43);
-            this.buttonBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonBack.Location = new System.Drawing.Point(37, 28);
             this.buttonBack.Name = "buttonBack";
-            this.buttonBack.Size = new System.Drawing.Size(219, 112);
+            this.buttonBack.Size = new System.Drawing.Size(146, 72);
             this.buttonBack.TabIndex = 3;
             this.buttonBack.Text = "Go Back";
             this.buttonBack.UseVisualStyleBackColor = true;
@@ -162,9 +161,8 @@
             this.panelMainMenu.Controls.Add(this.buttonConnectMain);
             this.panelMainMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainMenu.Location = new System.Drawing.Point(0, 0);
-            this.panelMainMenu.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelMainMenu.Name = "panelMainMenu";
-            this.panelMainMenu.Size = new System.Drawing.Size(1323, 870);
+            this.panelMainMenu.Size = new System.Drawing.Size(882, 557);
             this.panelMainMenu.TabIndex = 7;
             // 
             // labelStatusConnectShare
@@ -173,10 +171,9 @@
             this.labelStatusConnectShare.BackColor = System.Drawing.Color.DarkRed;
             this.labelStatusConnectShare.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelStatusConnectShare.ForeColor = System.Drawing.Color.OrangeRed;
-            this.labelStatusConnectShare.Location = new System.Drawing.Point(544, 82);
-            this.labelStatusConnectShare.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelStatusConnectShare.Location = new System.Drawing.Point(363, 52);
             this.labelStatusConnectShare.Name = "labelStatusConnectShare";
-            this.labelStatusConnectShare.Size = new System.Drawing.Size(642, 73);
+            this.labelStatusConnectShare.Size = new System.Drawing.Size(397, 46);
             this.labelStatusConnectShare.TabIndex = 8;
             this.labelStatusConnectShare.Text = "Server Status: Offline";
             // 
@@ -185,9 +182,10 @@
             this.labelMoreInfo.AutoSize = true;
             this.labelMoreInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelMoreInfo.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.labelMoreInfo.Location = new System.Drawing.Point(262, 125);
+            this.labelMoreInfo.Location = new System.Drawing.Point(175, 80);
+            this.labelMoreInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelMoreInfo.Name = "labelMoreInfo";
-            this.labelMoreInfo.Size = new System.Drawing.Size(75, 20);
+            this.labelMoreInfo.Size = new System.Drawing.Size(50, 13);
             this.labelMoreInfo.TabIndex = 4;
             this.labelMoreInfo.Text = "more info";
             this.labelMoreInfo.Click += new System.EventHandler(this.LabelMoreInfo_Click);
@@ -196,20 +194,18 @@
             // 
             this.labelAccountName.AutoSize = true;
             this.labelAccountName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAccountName.Location = new System.Drawing.Point(116, 74);
-            this.labelAccountName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelAccountName.Location = new System.Drawing.Point(77, 47);
             this.labelAccountName.Name = "labelAccountName";
-            this.labelAccountName.Size = new System.Drawing.Size(211, 51);
+            this.labelAccountName.Size = new System.Drawing.Size(132, 31);
             this.labelAccountName.TabIndex = 3;
             this.labelAccountName.Text = "Logged in";
             // 
             // buttonLogout
             // 
             this.buttonLogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonLogout.Location = new System.Drawing.Point(497, 648);
-            this.buttonLogout.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonLogout.Location = new System.Drawing.Point(331, 415);
             this.buttonLogout.Name = "buttonLogout";
-            this.buttonLogout.Size = new System.Drawing.Size(300, 78);
+            this.buttonLogout.Size = new System.Drawing.Size(200, 50);
             this.buttonLogout.TabIndex = 2;
             this.buttonLogout.Text = "Logout";
             this.buttonLogout.UseVisualStyleBackColor = true;
@@ -218,10 +214,9 @@
             // buttonShareMain
             // 
             this.buttonShareMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonShareMain.Location = new System.Drawing.Point(735, 296);
-            this.buttonShareMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonShareMain.Location = new System.Drawing.Point(490, 189);
             this.buttonShareMain.Name = "buttonShareMain";
-            this.buttonShareMain.Size = new System.Drawing.Size(451, 235);
+            this.buttonShareMain.Size = new System.Drawing.Size(301, 150);
             this.buttonShareMain.TabIndex = 1;
             this.buttonShareMain.Text = "Share";
             this.buttonShareMain.UseVisualStyleBackColor = true;
@@ -230,10 +225,9 @@
             // buttonConnectMain
             // 
             this.buttonConnectMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonConnectMain.Location = new System.Drawing.Point(125, 296);
-            this.buttonConnectMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonConnectMain.Location = new System.Drawing.Point(83, 189);
             this.buttonConnectMain.Name = "buttonConnectMain";
-            this.buttonConnectMain.Size = new System.Drawing.Size(451, 235);
+            this.buttonConnectMain.Size = new System.Drawing.Size(301, 150);
             this.buttonConnectMain.TabIndex = 0;
             this.buttonConnectMain.Text = "Connect";
             this.buttonConnectMain.UseVisualStyleBackColor = true;
@@ -245,29 +239,48 @@
             this.panelConnect.Controls.Add(this.buttonConnectBack);
             this.panelConnect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelConnect.Location = new System.Drawing.Point(0, 0);
-            this.panelConnect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelConnect.Name = "panelConnect";
-            this.panelConnect.Size = new System.Drawing.Size(1323, 870);
+            this.panelConnect.Size = new System.Drawing.Size(882, 557);
             this.panelConnect.TabIndex = 4;
             // 
             // panelConnectList
             // 
             this.panelConnectList.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.panelConnectList.Controls.Add(this.button2);
+            this.panelConnectList.Controls.Add(this.button1);
             this.panelConnectList.Controls.Add(this.labelNoShared);
-            this.panelConnectList.Location = new System.Drawing.Point(19, 140);
-            this.panelConnectList.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.panelConnectList.Location = new System.Drawing.Point(13, 90);
             this.panelConnectList.Name = "panelConnectList";
-            this.panelConnectList.Size = new System.Drawing.Size(1287, 711);
+            this.panelConnectList.Size = new System.Drawing.Size(858, 455);
             this.panelConnectList.TabIndex = 0;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(477, 70);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "File List";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.temp_getListing);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(278, 70);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Download File";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.temp_downloadButton);
             // 
             // labelNoShared
             // 
             this.labelNoShared.AutoSize = true;
             this.labelNoShared.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNoShared.Location = new System.Drawing.Point(124, 282);
-            this.labelNoShared.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelNoShared.Location = new System.Drawing.Point(83, 180);
             this.labelNoShared.Name = "labelNoShared";
-            this.labelNoShared.Size = new System.Drawing.Size(1103, 51);
+            this.labelNoShared.Size = new System.Drawing.Size(695, 31);
             this.labelNoShared.TabIndex = 0;
             this.labelNoShared.Text = "There are no files currently being shared by your devices";
             // 
@@ -275,10 +288,9 @@
             // 
             this.buttonConnectBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonConnectBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonConnectBack.Location = new System.Drawing.Point(116, 19);
-            this.buttonConnectBack.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonConnectBack.Location = new System.Drawing.Point(77, 12);
             this.buttonConnectBack.Name = "buttonConnectBack";
-            this.buttonConnectBack.Size = new System.Drawing.Size(1078, 112);
+            this.buttonConnectBack.Size = new System.Drawing.Size(719, 72);
             this.buttonConnectBack.TabIndex = 4;
             this.buttonConnectBack.Text = "Go Back";
             this.buttonConnectBack.UseVisualStyleBackColor = true;
@@ -288,20 +300,18 @@
             // 
             this.textBoxUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxUsername.Location = new System.Drawing.Point(116, 277);
-            this.textBoxUsername.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxUsername.Location = new System.Drawing.Point(77, 177);
             this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(668, 38);
+            this.textBoxUsername.Size = new System.Drawing.Size(447, 26);
             this.textBoxUsername.TabIndex = 2;
             // 
             // labelLoginText
             // 
             this.labelLoginText.AutoSize = true;
             this.labelLoginText.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLoginText.Location = new System.Drawing.Point(523, 40);
-            this.labelLoginText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelLoginText.Location = new System.Drawing.Point(349, 26);
             this.labelLoginText.Name = "labelLoginText";
-            this.labelLoginText.Size = new System.Drawing.Size(232, 91);
+            this.labelLoginText.Size = new System.Drawing.Size(148, 58);
             this.labelLoginText.TabIndex = 1;
             this.labelLoginText.Text = "Login";
             // 
@@ -309,10 +319,9 @@
             // 
             this.buttonLogin.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonLogin.Location = new System.Drawing.Point(925, 296);
-            this.buttonLogin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonLogin.Location = new System.Drawing.Point(617, 189);
             this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(221, 134);
+            this.buttonLogin.Size = new System.Drawing.Size(147, 86);
             this.buttonLogin.TabIndex = 0;
             this.buttonLogin.Text = "Login";
             this.buttonLogin.UseVisualStyleBackColor = true;
@@ -322,20 +331,18 @@
             // 
             this.textBoxPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPassword.Location = new System.Drawing.Point(116, 422);
-            this.textBoxPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.textBoxPassword.Location = new System.Drawing.Point(77, 270);
             this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(668, 38);
+            this.textBoxPassword.Size = new System.Drawing.Size(447, 26);
             this.textBoxPassword.TabIndex = 3;
             // 
             // labelUsername
             // 
             this.labelUsername.AutoSize = true;
             this.labelUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUsername.Location = new System.Drawing.Point(116, 181);
-            this.labelUsername.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelUsername.Location = new System.Drawing.Point(77, 116);
             this.labelUsername.Name = "labelUsername";
-            this.labelUsername.Size = new System.Drawing.Size(221, 51);
+            this.labelUsername.Size = new System.Drawing.Size(139, 31);
             this.labelUsername.TabIndex = 4;
             this.labelUsername.Text = "Username";
             // 
@@ -343,20 +350,18 @@
             // 
             this.labelPassword.AutoSize = true;
             this.labelPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPassword.Location = new System.Drawing.Point(116, 341);
-            this.labelPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelPassword.Location = new System.Drawing.Point(77, 218);
             this.labelPassword.Name = "labelPassword";
-            this.labelPassword.Size = new System.Drawing.Size(212, 51);
+            this.labelPassword.Size = new System.Drawing.Size(134, 31);
             this.labelPassword.TabIndex = 5;
             this.labelPassword.Text = "Password";
             // 
             // buttonSignup
             // 
             this.buttonSignup.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSignup.Location = new System.Drawing.Point(471, 728);
-            this.buttonSignup.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.buttonSignup.Location = new System.Drawing.Point(314, 466);
             this.buttonSignup.Name = "buttonSignup";
-            this.buttonSignup.Size = new System.Drawing.Size(342, 68);
+            this.buttonSignup.Size = new System.Drawing.Size(228, 44);
             this.buttonSignup.TabIndex = 6;
             this.buttonSignup.Text = "Create Account";
             this.buttonSignup.UseVisualStyleBackColor = true;
@@ -364,20 +369,18 @@
             // 
             // username_txtbx
             // 
-            this.username_txtbx.Location = new System.Drawing.Point(44, 676);
-            this.username_txtbx.Margin = new System.Windows.Forms.Padding(4);
+            this.username_txtbx.Location = new System.Drawing.Point(29, 433);
             this.username_txtbx.Name = "username_txtbx";
-            this.username_txtbx.Size = new System.Drawing.Size(371, 31);
+            this.username_txtbx.Size = new System.Drawing.Size(249, 22);
             this.username_txtbx.TabIndex = 7;
             this.username_txtbx.Text = "username";
             this.username_txtbx.Visible = false;
             // 
             // password_txtbx
             // 
-            this.password_txtbx.Location = new System.Drawing.Point(44, 728);
-            this.password_txtbx.Margin = new System.Windows.Forms.Padding(4);
+            this.password_txtbx.Location = new System.Drawing.Point(29, 466);
             this.password_txtbx.Name = "password_txtbx";
-            this.password_txtbx.Size = new System.Drawing.Size(371, 31);
+            this.password_txtbx.Size = new System.Drawing.Size(249, 22);
             this.password_txtbx.TabIndex = 8;
             this.password_txtbx.Text = "password";
             this.password_txtbx.Visible = false;
@@ -395,22 +398,20 @@
             this.panelEntry.Controls.Add(this.textBoxUsername);
             this.panelEntry.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEntry.Location = new System.Drawing.Point(0, 0);
-            this.panelEntry.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelEntry.Name = "panelEntry";
-            this.panelEntry.Size = new System.Drawing.Size(1323, 870);
+            this.panelEntry.Size = new System.Drawing.Size(882, 557);
             this.panelEntry.TabIndex = 0;
             // 
             // Application
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1323, 870);
-            this.Controls.Add(this.panelShare);
+            this.ClientSize = new System.Drawing.Size(882, 557);
             this.Controls.Add(this.panelConnect);
-            this.Controls.Add(this.panelEntry);
             this.Controls.Add(this.panelMainMenu);
+            this.Controls.Add(this.panelShare);
+            this.Controls.Add(this.panelEntry);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Application";
             this.Text = "Form1";
             this.panelShare.ResumeLayout(false);
@@ -455,6 +456,8 @@
         private System.Windows.Forms.Label labelSharedFolders;
         private System.Windows.Forms.Label labelMoreInfo;
         private System.Windows.Forms.Label labelStatusConnectShare;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 
