@@ -252,14 +252,14 @@ namespace FIONA
             }
             Console.WriteLine(_currentDirectory);
             pathname = new DirectoryInfo(Path.Combine(_currentDirectory, pathname)).FullName;
-            Console.WriteLine(pathname);
+            Console.WriteLine("List command pathname after combine: " + pathname);
 
             if (!conn_type_passive)
             {
-                Console.WriteLine("test2");
+                Console.WriteLine("CONNECTION NOT PASSIVE");
 
                 _dataClient = new TcpClient();
-                Console.WriteLine(_dataEndpoint.Address);
+                Console.WriteLine("Data endpoint address: " + _dataEndpoint.Address);
                 _dataClient.BeginConnect(_dataEndpoint.Address, _dataEndpoint.Port, DoList, pathname);
             }
             else
@@ -316,16 +316,25 @@ namespace FIONA
                 // stamps new files with parameters
                 foreach (string file in files)
                 {
-                    FileInfo f = new FileInfo(file);
+                    try
+                    {
+                        FileInfo f = new FileInfo(file);
 
-                    string date = f.LastWriteTime < DateTime.Now - TimeSpan.FromDays(180) ?
-                        f.LastWriteTime.ToString("MMM dd  yyyy") :
-                        f.LastWriteTime.ToString("MMM dd HH:mm");
+                        string date = f.LastWriteTime < DateTime.Now - TimeSpan.FromDays(180) ?
+                            f.LastWriteTime.ToString("MMM dd  yyyy") :
+                            f.LastWriteTime.ToString("MMM dd HH:mm");
 
-                    string line = string.Format("-rw-r--r--    2 2003     2003     {0,8} {1} {2}", f.Length, date, f.Name);
+                        string line = string.Format("-rw-r--r--    2 2003     2003     {0,8} {1} {2}", f.Length, date, f.Name);
 
-                    _dataWriter.WriteLine(line);
-                    _dataWriter.Flush();
+                        _dataWriter.WriteLine(line);
+                        _dataWriter.Flush();
+                    } catch(SocketException e)
+                    {
+                        Console.WriteLine("Socket Exception in ClientConnection DoList\nCode: " + e.ErrorCode);
+                    } catch(System.IO.IOException e)
+                    {
+                        Console.WriteLine("IOException occurred in ClientConnection DoList\nCode: " + e.Message);
+                    }
                 }
                 _dataClient.Close();
                 _dataClient = null;

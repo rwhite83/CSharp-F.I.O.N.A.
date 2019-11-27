@@ -245,7 +245,10 @@ namespace FIONA
             //client.directoryListSimple(@"C:\fiona");
 
             string[] simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
-            for (int i = 0; i < simpleDirectoryListing.Count(); i++) { Console.WriteLine(simpleDirectoryListing[i]); }
+            for (int i = 0; i < simpleDirectoryListing.Count(); i++) 
+            {
+                Console.WriteLine(simpleDirectoryListing[i]);
+            }
         }
     }
 }

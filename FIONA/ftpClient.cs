@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FIONA
 {
@@ -69,7 +70,7 @@ namespace FIONA
                 }
                 catch(Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine("Exception occurred in ftpClient download\nTried to write to localFileStream\n" + ex.ToString());
                 }
                 localFileStream.Close();
                 ftpStream.Close();
@@ -78,7 +79,7 @@ namespace FIONA
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine("Exception occurred in ftpClient download\nFull try catch\n" + ex.ToString());
             }
             return;
         }
@@ -88,7 +89,7 @@ namespace FIONA
             try
             {
                 /* Create an FTP Request */
-                ftpRequest = (FtpWebRequest)FtpWebRequest.Create(@"ftp://localhost:21/" + Properties.Settings.Default.rootAppVar);
+                ftpRequest = (FtpWebRequest)FtpWebRequest.Create(@"ftp://localhost:21/");
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
                 /* When in doubt, use these options */
@@ -143,7 +144,7 @@ namespace FIONA
             try
             {
                 /* Create an FTP Request */
-                ftpRequest = (FtpWebRequest)FtpWebRequest.Create(@"ftp://localhost:21/" + Properties.Settings.Default.rootAppVar);
+                ftpRequest = (FtpWebRequest)FtpWebRequest.Create(@"ftp://localhost:21/");
                 /* Log in to the FTP Server with the User Name and Password Provided */
                 ftpRequest.Credentials = new NetworkCredential(user, pass);
                 /* When in doubt, use these options */
@@ -154,6 +155,8 @@ namespace FIONA
                 ftpRequest.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
                 /* Establish Return Communication with the FTP Server */
                 ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
+
+                Thread.Sleep(2000);//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX This is NOT the solution, only a bandaid.
                 /* Establish Return Communication with the FTP Server */
                 ftpStream = ftpResponse.GetResponseStream();
                 /* Get the FTP Server's Response Stream */
@@ -161,18 +164,39 @@ namespace FIONA
                 /* Store the Raw Response */
                 string directoryRaw = null;
                 /* Read Each Line of the Response and Append a Pipe to Each Line for Easy Parsing */
-                try { while (ftpReader.Peek() != -1) { directoryRaw += ftpReader.ReadLine() + "|"; } }
-                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                try 
+                {
+                    Console.WriteLine("Peek: " + ftpReader.Peek());
+                    while (ftpReader.Peek() > -1)
+                    {
+                        directoryRaw += ftpReader.ReadLine() + "|";
+                        Console.WriteLine("Peek: " + ftpReader.Peek());
+                        Console.WriteLine("Raw Directory" + directoryRaw);
+                    } 
+                }
+                catch (Exception ex) 
+                {
+                    Console.WriteLine("Exception in ftpClient directoryListDetailed\nAttempt to read a line" + ex.ToString());
+                }
                 /* Resource Cleanup */
                 ftpReader.Close();
                 ftpStream.Close();
                 ftpResponse.Close();
                 ftpRequest = null;
                 /* Return the Directory Listing as a string Array by Parsing 'directoryRaw' with the Delimiter you Append (I use | in This Example) */
-                try { string[] directoryList = directoryRaw.Split("|".ToCharArray()); return directoryList; }
-                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                try { 
+                    string[] directoryList = directoryRaw.Split("|".ToCharArray());
+                    return directoryList; 
+                }
+                catch (Exception ex) 
+                { 
+                    Console.WriteLine("Exception in ftpClient directoryListDetailed\nTrying to get directory as a string" + ex.ToString()); 
+                }
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            catch (Exception ex) 
+            { 
+                Console.WriteLine("Exception in ftpClient directoryListDetailed\nFull try catch" + ex.ToString()); 
+            }
             /* Return an Empty string Array if an Exception Occurs */
             return new string[] { "" };
         }
