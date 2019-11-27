@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace FIONA
 {
-    class ftpClient
+    class FtpClient
     {
         private string host = null;
         private string user = null;
@@ -25,7 +25,7 @@ namespace FIONA
         /// <param name="hostIP">The host's IP address.</param>
         /// <param name="userName">The username for the ftp server.</param>
         /// <param name="password">The password for the ftp server.</param>
-        public ftpClient(string hostIP, string userName, string password)
+        public FtpClient(string hostIP, string userName, string password)
         {
             host = hostIP;
             user = userName;
@@ -62,13 +62,13 @@ namespace FIONA
                 int bytesRead = ftpStream.Read(byteBuffer, 0, bufferSize);
                 try
                 {
-                    while(bytesRead > 0)
+                    while (bytesRead > 0)
                     {
                         localFileStream.Write(byteBuffer, 0, bytesRead);
                         bytesRead = ftpStream.Read(byteBuffer, 0, bufferSize);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine("Exception occurred in ftpClient download\nTried to write to localFileStream\n" + ex.ToString());
                 }
@@ -77,7 +77,7 @@ namespace FIONA
                 ftpResponse.Close();
                 ftpRequest = null;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Exception occurred in ftpClient download\nFull try catch\n" + ex.ToString());
             }
@@ -109,12 +109,12 @@ namespace FIONA
                 /* Read Each Line of the Response and Append a Pipe to Each Line for Easy Parsing */
                 try
                 {
-                    while(ftpReader.Peek() != -1)
+                    while (ftpReader.Peek() != -1)
                     {
-                        directoryRaw += ftpReader.ReadLine() + "|"; 
+                        directoryRaw += ftpReader.ReadLine() + "|";
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                 }
@@ -124,11 +124,12 @@ namespace FIONA
                 ftpResponse.Close();
                 ftpRequest = null;
                 /* Return the Directory Listing as a string Array by Parsing 'directoryRaw' with the Delimiter you Append (I use | in This Example) */
-                try {
+                try
+                {
                     string[] directoryList = directoryRaw.Split("|".ToCharArray());
                     return directoryList;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.ToString());
                 }
@@ -164,7 +165,7 @@ namespace FIONA
                 /* Store the Raw Response */
                 string directoryRaw = null;
                 /* Read Each Line of the Response and Append a Pipe to Each Line for Easy Parsing */
-                try 
+                try
                 {
                     Console.WriteLine("Peek: " + ftpReader.Peek());
                     while (ftpReader.Peek() > -1)
@@ -172,9 +173,9 @@ namespace FIONA
                         directoryRaw += ftpReader.ReadLine() + "|";
                         Console.WriteLine("Peek: " + ftpReader.Peek());
                         Console.WriteLine("Raw Directory" + directoryRaw);
-                    } 
+                    }
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     Console.WriteLine("Exception in ftpClient directoryListDetailed\nAttempt to read a line" + ex.ToString());
                 }
@@ -184,18 +185,19 @@ namespace FIONA
                 ftpResponse.Close();
                 ftpRequest = null;
                 /* Return the Directory Listing as a string Array by Parsing 'directoryRaw' with the Delimiter you Append (I use | in This Example) */
-                try { 
+                try
+                {
                     string[] directoryList = directoryRaw.Split("|".ToCharArray());
-                    return directoryList; 
+                    return directoryList;
                 }
-                catch (Exception ex) 
-                { 
-                    Console.WriteLine("Exception in ftpClient directoryListDetailed\nTrying to get directory as a string" + ex.ToString()); 
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception in ftpClient directoryListDetailed\nTrying to get directory as a string" + ex.ToString());
                 }
             }
-            catch (Exception ex) 
-            { 
-                Console.WriteLine("Exception in ftpClient directoryListDetailed\nFull try catch" + ex.ToString()); 
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception in ftpClient directoryListDetailed\nFull try catch" + ex.ToString());
             }
             /* Return an Empty string Array if an Exception Occurs */
             return new string[] { "" };
