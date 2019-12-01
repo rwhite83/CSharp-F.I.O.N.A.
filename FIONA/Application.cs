@@ -1,7 +1,8 @@
 ﻿using System;
-
+using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FIONA
@@ -9,10 +10,13 @@ namespace FIONA
     public partial class Application : Form
 
     {
+        #region variables & constructor(s)
+
         FtpServer test_server;
         private bool _connectionStarted;
         private string sorry = "Sorry about that...";
         private string notice = "Just so you know...";
+        DatabaseComms db_comm = new DatabaseComms();
 
         /// <summary>
         /// a property to keep track of whether or not the system is currently sharing
@@ -39,6 +43,10 @@ namespace FIONA
             _connectionStarted = false;
         }
 
+        #endregion
+
+        #region panel entry
+
         /// <summary>
         /// Alerts the user that they are bypassing a future login system when they pass through
         /// </summary>
@@ -46,9 +54,92 @@ namespace FIONA
         /// <param name="e"></param>
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            string help = "A Login System is currently in development.  You are being forwarded in as a generic user.";
-            MessageBox.Show(help, notice);
-            panelMainMenu.BringToFront();
+            //string help = "A Login System is currently in development.  You are being forwarded in as a generic user.";
+            //MessageBox.Show(help, notice);
+
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(textBoxLoginEmail.Text);
+                if (addr.Address == textBoxLoginEmail.Text)
+                {
+                    if (db_comm.login(textBoxLoginEmail.Text, textBoxLoginPassword.Text))
+                    {
+                        panelMainMenu.BringToFront();
+                    }
+                }
+            }
+            catch
+            {
+                Console.WriteLine("login attempted with invalid email");
+                string help = "Sorry, not a proper email format.  Please try again with an email of type a@b.com";
+                MessageBox.Show(help, sorry);
+            }
+        }
+
+        /// <summary>
+        /// this function should handle login events, but presently just passes user through to the next panel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSignup_Click(object sender, EventArgs e)
+        {
+            if (textBoxSignupConfirm.Text.CompareTo(textBoxSignupPassword.Text) == 0)
+            {
+                try
+                {
+                    var addr = new System.Net.Mail.MailAddress(textBoxLoginEmail.Text);
+                    if (addr.Address == textBoxLoginEmail.Text)
+                    {
+                        if (db_comm.signup(textBoxSignupEmail.Text, textBoxSignupPassword.Text))
+                        {
+                            panelMainMenu.BringToFront();
+                        }
+                        else
+                        {
+                            Console.WriteLine("signup attempt failed");
+                            string help = "Sorry, something went wrong with the sign up process.  Please try again.";
+                            MessageBox.Show(help, sorry);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("signup attempt failed due to mismatched passwords");
+                        string help = "Sorry, your passwords don't match.  Please try again.";
+                        MessageBox.Show(help, sorry);
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("signup attempted with invalid email");
+                    string help = "Sorry, not a proper email format.  Please try again with an email of type a@b.com";
+                    MessageBox.Show(help, sorry);
+                }
+            }
+        }
+
+        #endregion
+
+        #region panel main menu
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonLogout_Click(object sender, EventArgs e)
+        {
+            if (_connectionStarted)
+            {
+                test_server.Stop();
+            }
+            textBoxLoginEmail.Text = "";
+            textBoxLoginPassword.Text = "";
+            textBoxSignupEmail.Text = "";
+            textBoxSignupPassword.Text = "";
+            textBoxSignupConfirm.Text = "";
+            sessionVariables.userEmail = null;
+            _connectionStarted = false;
+            panelEntry.BringToFront();
         }
 
         /// <summary>
@@ -72,8 +163,24 @@ namespace FIONA
         /// <param name="e"></param>
         private void buttonShareMain_Click(object sender, EventArgs e)
         {
+            db_comm.reset_ip();
             panelShare.BringToFront();
         }
+
+        /// <summary>
+        /// alerts user that the function they are trying to access is not yet developed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LabelMoreInfo_Click(object sender, EventArgs e)
+        {
+            string help = "A Login System is currently in development.  Check back later!";
+            MessageBox.Show(help, sorry);
+        }
+
+        #endregion
+
+        #region panel share
 
         /// <summary>
         /// brings main menu panel to front
@@ -84,103 +191,42 @@ namespace FIONA
         {
             panelMainMenu.BringToFront();
         }
-        
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonLogout_Click(object sender, EventArgs e)
+        private void go_online()
         {
-            panelEntry.BringToFront();
+            buttonShareStartStop.ForeColor = Color.OrangeRed;
+            buttonShareStartStop.BackColor = Color.DarkRed;
+            labelStatus.Text = "Server Status: Online";
+            labelStatusConnectShare.Text = "Server Status: Online";
+            labelStatusConnectShare.ForeColor = Color.GreenYellow;
+            labelStatusConnectShare.BackColor = Color.ForestGreen;
+            labelStatus.ForeColor = Color.GreenYellow;
+            labelStatus.BackColor = Color.ForestGreen;
+            buttonShareStartStop.Text = "Stop Sharing";
+            _connectionStarted = true;
+            test_server.Start();
         }
 
         /// <summary>
-        /// this function should handle login events, but presently just passes user through to the next panel
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonSignup_Click(object sender, EventArgs e)
-        {
-            buttonLogin_Click(sender, e);
-            //////////////////////////////////////////////////////////////////////////////
-            // depracated until we develop more core functionality
-            // I originally conceived this in Azure, but large costs forced me out
-            // leaving in because most of the logic will be reusable
-            //////////////////////////////////////////////////////////////////////////////
-            
-            /*
-            SqlConnection conn = new SqlConnection(@"Data Source=fiona.database.windows.net;Initial Catalog=FIONA_db;User ID=team_fiona;Password=#Wubbalubbadubdub;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-
-            conn.Open();
-
-            Console.WriteLine(conn.State);
-
-            // i know i need to hash the password, this is early going
-            //string new_username = username_txtbx.Text;
-            //string new_password = password_txtbx.Text;
-
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            //SqlDataAdapter sda = new SqlDataAdapter();
-            //adapter.InsertCommand = new SqlCommand("INSERT INTO users (username, password) VALUES ('" +  new_username + "', '" + new_password + "')", conn);
-            adapter.InsertCommand.ExecuteNonQuery();
-            */
-        }
-
-        /// <summary>
-        /// handles starting and stopping serving
         /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonShareStartStop_Click(object sender, EventArgs e)
+        private void go_offline()
         {
-            if (!_connectionStarted)
-            {
-                // checks if a folder has already been set
-                if (Properties.Settings.Default.rootAppVar == "null")
-                {
-                    string help = "Whoops!  Please select a share folder before attempting to start sharing.";
-                    MessageBox.Show(help, sorry);
-                }
-                // if not, instantializes FtpServer object and launces connection
-                else
-                {
-                    Console.WriteLine("starting server");
-                    test_server = new FtpServer(this, Properties.Settings.Default.rootAppVar);
-                    if (!_connectionStarted)
-                    {
-                        buttonShareStartStop.ForeColor = Color.OrangeRed;
-                        buttonShareStartStop.BackColor = Color.DarkRed;
-                        labelStatus.Text = "Server Status: Online";
-                        labelStatusConnectShare.Text = "Server Status: Online";
-                        labelStatusConnectShare.ForeColor = Color.GreenYellow;
-                        labelStatusConnectShare.BackColor = Color.ForestGreen;
-                        labelStatus.ForeColor = Color.GreenYellow;
-                        labelStatus.BackColor = Color.ForestGreen;
-                        buttonShareStartStop.Text = "Stop Sharing";
-                        _connectionStarted = true;
-                        test_server.Start();
-                    }
-                }
-            }
-            // if server already started, clicking the button shuts down the server
-            else
-            {
-                Console.WriteLine("shutting down server");
-                test_server.Stop();
-                buttonShareStartStop.BackColor = Color.ForestGreen;
-                buttonShareStartStop.ForeColor = Color.GreenYellow;
-                labelStatus.Text = "Server Status: Offline";
-                labelStatusConnectShare.Text = "Server Status: Offline";
-                labelStatusConnectShare.ForeColor = Color.OrangeRed;
-                labelStatusConnectShare.BackColor = Color.DarkRed;
-                labelStatus.ForeColor = Color.OrangeRed;
-                labelStatus.BackColor = Color.DarkRed;
-                buttonShareStartStop.Text = "Stop Sharing";
-                _connectionStarted = false;
-            }
+            Console.WriteLine("shutting down server");
+            test_server.Stop();
+            buttonShareStartStop.BackColor = Color.ForestGreen;
+            buttonShareStartStop.ForeColor = Color.GreenYellow;
+            labelStatus.Text = "Server Status: Offline";
+            labelStatusConnectShare.Text = "Server Status: Offline";
+            labelStatusConnectShare.ForeColor = Color.OrangeRed;
+            labelStatusConnectShare.BackColor = Color.DarkRed;
+            labelStatus.ForeColor = Color.OrangeRed;
+            labelStatus.BackColor = Color.DarkRed;
+            buttonShareStartStop.Text = "Stop Sharing";
+            _connectionStarted = false;
         }
 
         /// <summary>
@@ -193,10 +239,10 @@ namespace FIONA
             // first checks if a folder is already set
             if (Properties.Settings.Default.rootAppVar != "null")
             {
-                string folderAlreadySelectedMessage = "Sorry, currently only one folder can be shared.  Would you like to change your current share folder?";
+                string folderAlreadySelectedMessage = "Sorry, currently only one folder can be shared.  Would you like to change your current download folder?";
                 DialogResult dialogResult = MessageBox.Show(folderAlreadySelectedMessage, sorry, MessageBoxButtons.YesNo);
                 // if user wishes to override existing share, sets new share folder
-                if(dialogResult == DialogResult.Yes)
+                if (dialogResult == DialogResult.Yes)
                 {
                     FolderBrowserDialog rootPicker = new FolderBrowserDialog();
                     DialogResult result = rootPicker.ShowDialog();
@@ -223,32 +269,105 @@ namespace FIONA
         }
 
         /// <summary>
-        /// alerts user that the function they are trying to access is not yet developed
+        /// handles starting and stopping serving
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void LabelMoreInfo_Click(object sender, EventArgs e)
+        private void ButtonShareStartStop_Click(object sender, EventArgs e)
         {
-            string help = "A Login System is currently in development.  Check back later!";
-            MessageBox.Show(help, sorry);
+            if (!_connectionStarted)
+            {
+                // checks if a folder has already been set
+                if (Properties.Settings.Default.rootAppVar == "null")
+                {
+                    string help = "Whoops!  Please select a share folder before attempting to start sharing.";
+                    MessageBox.Show(help, sorry);
+                }
+                // if not, instantializes FtpServer object and launces connection
+                else
+                {
+                    Console.WriteLine("starting server");
+                    test_server = new FtpServer(this, Properties.Settings.Default.rootAppVar);
+                    if (!_connectionStarted)
+                    {
+                        go_online();
+                    }
+                }
+            }
+            // if server already started, clicking the button shuts down the server
+            else
+            {
+                go_offline();
+            }
         }
 
-        private void temp_downloadButton(object sender, EventArgs e)
+        #endregion
+
+        #region panel connect
+
+        private void ButtonDownloadPicker_Click(object sender, EventArgs e)
+        {
+            // first checks if a folder is already set
+            if (Properties.Settings.Default.dlAppVar != "null")
+            {
+                string folderAlreadySelectedMessage = "Sorry, currently only one folder can be downloaded to.  Would you like to change your current share folder?";
+                DialogResult dialogResult = MessageBox.Show(folderAlreadySelectedMessage, sorry, MessageBoxButtons.YesNo);
+                // if user wishes to override existing share, sets new share folder
+                if (dialogResult == DialogResult.Yes)
+                {
+                    FolderBrowserDialog rootPicker = new FolderBrowserDialog();
+                    DialogResult result = rootPicker.ShowDialog();
+
+                    if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(rootPicker.SelectedPath))
+                    {
+                        Properties.Settings.Default.dlAppVar = rootPicker.SelectedPath;
+                        labelDownloadPath.Text = Properties.Settings.Default.dlAppVar;
+                    }
+                }
+            }
+            // proceeds without interrruption if no folder already set
+            else
+            {
+                FolderBrowserDialog rootPicker = new FolderBrowserDialog();
+                DialogResult result = rootPicker.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(rootPicker.SelectedPath))
+                {
+                    Properties.Settings.Default.dlAppVar = rootPicker.SelectedPath;
+                    labelDownloadPath.Text = Properties.Settings.Default.dlAppVar;
+                }
+            }
+        }
+                private void ButtonRefresh_Click(object sender, EventArgs e)
+        {
+            ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
+            //client.directoryListSimple(@"C:\fiona");
+
+            Task<string[]> simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
+            for (int i = 0; i < simpleDirectoryListing.Result.Length; i++)
+            {
+                Console.WriteLine(simpleDirectoryListing.Result[i]);
+            }
+        }
+
+        private void ButtonDownloadShow_Click(object sender, EventArgs e)
         {
             ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
             client.download("Transcript.pdf", @"C:\fiona\NewFolder\Transcript.pdf");
         }
-
         private void temp_getListing(object sender, EventArgs e)
         {
             ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
             //client.directoryListSimple(@"C:\fiona");
 
-            string[] simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
-            for (int i = 0; i < simpleDirectoryListing.Count(); i++) 
+            Task<string[]> simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
+            for (int i = 0; i < simpleDirectoryListing.Result.Length; i++)
             {
-                Console.WriteLine(simpleDirectoryListing[i]);
+                Console.WriteLine(simpleDirectoryListing.Result[i]);
             }
         }
+
+        #endregion
     }
 }
