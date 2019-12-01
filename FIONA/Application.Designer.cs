@@ -56,18 +56,18 @@
             this.labelLoginText = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.textBoxLoginPassword = new System.Windows.Forms.TextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.labelUsername = new System.Windows.Forms.Label();
             this.labelPassword = new System.Windows.Forms.Label();
             this.buttonSignup = new System.Windows.Forms.Button();
             this.textBoxSignupEmail = new System.Windows.Forms.TextBox();
             this.textBoxSignupPassword = new System.Windows.Forms.TextBox();
             this.panelEntry = new System.Windows.Forms.Panel();
+            this.labelPasswordWarning = new System.Windows.Forms.Label();
             this.labelSignupConfirm = new System.Windows.Forms.Label();
             this.textBoxSignupConfirm = new System.Windows.Forms.TextBox();
             this.labelSignupPassword = new System.Windows.Forms.Label();
             this.labelSignupEmail = new System.Windows.Forms.Label();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.labelPasswordWarning = new System.Windows.Forms.Label();
             this.panelShare.SuspendLayout();
             this.panelMainMenu.SuspendLayout();
             this.panelConnect.SuspendLayout();
@@ -279,17 +279,18 @@
             // buttonDownloadShow
             // 
             this.buttonDownloadShow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDownloadShow.Location = new System.Drawing.Point(1139, 756);
+            this.buttonDownloadShow.Location = new System.Drawing.Point(1107, 756);
             this.buttonDownloadShow.Name = "buttonDownloadShow";
-            this.buttonDownloadShow.Size = new System.Drawing.Size(156, 94);
+            this.buttonDownloadShow.Size = new System.Drawing.Size(188, 94);
             this.buttonDownloadShow.TabIndex = 8;
-            this.buttonDownloadShow.Text = "Show Folder";
+            this.buttonDownloadShow.Text = "Show Folder (dl)";
             this.buttonDownloadShow.UseVisualStyleBackColor = true;
+            this.buttonDownloadShow.Click += new System.EventHandler(this.ButtonDownloadShow_Click);
             // 
             // buttonDownloadPicker
             // 
             this.buttonDownloadPicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDownloadPicker.Location = new System.Drawing.Point(934, 756);
+            this.buttonDownloadPicker.Location = new System.Drawing.Point(902, 756);
             this.buttonDownloadPicker.Name = "buttonDownloadPicker";
             this.buttonDownloadPicker.Size = new System.Drawing.Size(163, 94);
             this.buttonDownloadPicker.TabIndex = 7;
@@ -311,11 +312,11 @@
             // buttonRefresh
             // 
             this.buttonRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRefresh.Location = new System.Drawing.Point(68, 19);
+            this.buttonRefresh.Location = new System.Drawing.Point(49, 19);
             this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(126, 106);
+            this.buttonRefresh.Size = new System.Drawing.Size(207, 106);
             this.buttonRefresh.TabIndex = 5;
-            this.buttonRefresh.Text = "refresh";
+            this.buttonRefresh.Text = "refresh (get listing)";
             this.buttonRefresh.UseVisualStyleBackColor = true;
             this.buttonRefresh.Click += new System.EventHandler(this.ButtonRefresh_Click);
             // 
@@ -398,6 +399,12 @@
             this.textBoxLoginPassword.Size = new System.Drawing.Size(668, 38);
             this.textBoxLoginPassword.TabIndex = 3;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // labelUsername
             // 
             this.labelUsername.AutoSize = true;
@@ -472,6 +479,15 @@
             this.panelEntry.Size = new System.Drawing.Size(1323, 870);
             this.panelEntry.TabIndex = 0;
             // 
+            // labelPasswordWarning
+            // 
+            this.labelPasswordWarning.AutoSize = true;
+            this.labelPasswordWarning.Location = new System.Drawing.Point(316, 585);
+            this.labelPasswordWarning.Name = "labelPasswordWarning";
+            this.labelPasswordWarning.Size = new System.Drawing.Size(659, 25);
+            this.labelPasswordWarning.TabIndex = 13;
+            this.labelPasswordWarning.Text = "***Warning: passwords transparent to administrators in current build";
+            // 
             // labelSignupConfirm
             // 
             this.labelSignupConfirm.AutoSize = true;
@@ -508,30 +524,15 @@
             this.labelSignupEmail.TabIndex = 9;
             this.labelSignupEmail.Text = "email";
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // labelPasswordWarning
-            // 
-            this.labelPasswordWarning.AutoSize = true;
-            this.labelPasswordWarning.Location = new System.Drawing.Point(316, 585);
-            this.labelPasswordWarning.Name = "labelPasswordWarning";
-            this.labelPasswordWarning.Size = new System.Drawing.Size(659, 25);
-            this.labelPasswordWarning.TabIndex = 13;
-            this.labelPasswordWarning.Text = "***Warning: passwords transparent to administrators in current build";
-            // 
             // Application
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1323, 870);
+            this.Controls.Add(this.panelConnect);
             this.Controls.Add(this.panelEntry);
             this.Controls.Add(this.panelMainMenu);
             this.Controls.Add(this.panelShare);
-            this.Controls.Add(this.panelConnect);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Application";

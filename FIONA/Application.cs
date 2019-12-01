@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FIONA
@@ -305,11 +306,6 @@ namespace FIONA
 
         #region panel connect
 
-        private void ButtonRefresh_Click(object sender, EventArgs e)
-        {
-            // expecting Kyle to do something with this?
-        }
-
         private void ButtonDownloadPicker_Click(object sender, EventArgs e)
         {
             // first checks if a folder is already set
@@ -341,6 +337,34 @@ namespace FIONA
                     Properties.Settings.Default.dlAppVar = rootPicker.SelectedPath;
                     labelDownloadPath.Text = Properties.Settings.Default.dlAppVar;
                 }
+            }
+        }
+                private void ButtonRefresh_Click(object sender, EventArgs e)
+        {
+            ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
+            //client.directoryListSimple(@"C:\fiona");
+
+            Task<string[]> simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
+            for (int i = 0; i < simpleDirectoryListing.Result.Length; i++)
+            {
+                Console.WriteLine(simpleDirectoryListing.Result[i]);
+            }
+        }
+
+        private void ButtonDownloadShow_Click(object sender, EventArgs e)
+        {
+            ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
+            client.download("Transcript.pdf", @"C:\fiona\NewFolder\Transcript.pdf");
+        }
+        private void temp_getListing(object sender, EventArgs e)
+        {
+            ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
+            //client.directoryListSimple(@"C:\fiona");
+
+            Task<string[]> simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
+            for (int i = 0; i < simpleDirectoryListing.Result.Length; i++)
+            {
+                Console.WriteLine(simpleDirectoryListing.Result[i]);
             }
         }
 
