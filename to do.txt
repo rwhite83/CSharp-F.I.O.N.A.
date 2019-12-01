@@ -3,3 +3,8 @@ on logout
 		warn that logging out will terminate connection and ask for confirmation
 		if no do nothing
 		if yes, terminate and bring back to login screen
+
+Make switching between panels causes previous one to have its Enabled property set to false, and the new one to true
+
+Fix List function(?) or the interraction thereof causing C:\\fiona\fiona error [FIXED]
+New Error: IOException when trying to list directories. Caused by client cutting connection before stream can be totally filled
