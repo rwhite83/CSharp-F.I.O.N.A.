@@ -9,13 +9,27 @@ using System.Windows.Forms;
 
 namespace FIONA
 {
+    /// <summary>
+    /// this class is to handle all database communications
+    /// this class and all associated database functionality written by Ross
+    /// </summary>
     class DatabaseComms
     {
-
+        /// <summary>
+        /// strings for populating message boxes
+        /// </summary>
         private string sorry = "Whoops...";
         private string yay = "It worked!";
 
 
+        /// <summary>
+        /// attempts to log in the user
+        /// if password doesn't match database, login fails with message to user
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public bool login(string email, string password)
         {
             // opening sql connection to check if login email exists
@@ -30,6 +44,8 @@ namespace FIONA
 
             int row_count = 0;
             // try catch here for safety
+            // ran out of time :(
+            // but i know this is good practice
             using (SqlCommand command = new SqlCommand("SELECT * FROM fionaUsers WHERE userEmail = '" + email_attempt + "'", conn))
             {
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -144,7 +160,6 @@ namespace FIONA
             adapter.InsertCommand = new SqlCommand("UPDATE fionaUsers SET userIP = '" + myIP 
                 + "' WHERE userEmail = '" + sessionVariables.userEmail + "'", conn);
             adapter.InsertCommand.ExecuteNonQuery();
-
         }
     }
 }

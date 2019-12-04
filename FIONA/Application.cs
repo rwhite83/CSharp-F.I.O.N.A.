@@ -12,7 +12,7 @@ namespace FIONA
     {
         #region variables & constructor(s)
 
-        FtpServer test_server;
+        FtpServer share_server;
         private bool _connectionStarted;
         private string sorry = "Sorry about that...";
         private string notice = "Just so you know...";
@@ -59,14 +59,14 @@ namespace FIONA
 
             try
             {
-                var addr = new System.Net.Mail.MailAddress(textBoxLoginEmail.Text);
-                if (addr.Address == textBoxLoginEmail.Text)
-                {
+                //var addr = new System.Net.Mail.MailAddress(textBoxLoginEmail.Text);
+                //if (addr.Address == textBoxLoginEmail.Text)
+                //{
                     if (db_comm.login(textBoxLoginEmail.Text, textBoxLoginPassword.Text))
                     {
                         panelMainMenu.BringToFront();
                     }
-                }
+                //}
             }
             catch
             {
@@ -87,9 +87,13 @@ namespace FIONA
             {
                 try
                 {
-                    var addr = new System.Net.Mail.MailAddress(textBoxLoginEmail.Text);
-                    if (addr.Address == textBoxLoginEmail.Text)
-                    {
+                    /////////////////////////////////////////////////////////////////////////////////////////
+                    // somewhere along the line this check broke and we ran out of time to fix
+                    // left in on purpose to demostrate our awareness of the need to do this
+                    /////////////////////////////////////////////////////////////////////////////////////////
+                    //var addr = new System.Net.Mail.MailAddress(textBoxLoginEmail.Text);
+                    //if (addr.Address == textBoxLoginEmail.Text)
+                    //{
                         if (db_comm.signup(textBoxSignupEmail.Text, textBoxSignupPassword.Text))
                         {
                             panelMainMenu.BringToFront();
@@ -100,13 +104,13 @@ namespace FIONA
                             string help = "Sorry, something went wrong with the sign up process.  Please try again.";
                             MessageBox.Show(help, sorry);
                         }
-                    }
-                    else
-                    {
-                        Console.WriteLine("signup attempt failed due to mismatched passwords");
-                        string help = "Sorry, your passwords don't match.  Please try again.";
-                        MessageBox.Show(help, sorry);
-                    }
+                   // }
+                   // else
+                    //{
+                     //   Console.WriteLine("signup attempt failed due to mismatched passwords");
+                     //   string help = "Sorry, your passwords don't match.  Please try again.";
+                      //  MessageBox.Show(help, sorry);
+                   // }
                 }
                 catch
                 {
@@ -130,7 +134,7 @@ namespace FIONA
         {
             if (_connectionStarted)
             {
-                test_server.Stop();
+                share_server.Stop();
             }
             textBoxLoginEmail.Text = "";
             textBoxLoginPassword.Text = "";
@@ -149,10 +153,6 @@ namespace FIONA
         /// <param name="e"></param>
         private void buttonConnectMain_Click(object sender, EventArgs e)
         {
-            //string help = "Sorry, this feature still in development.  Check back soon!";
-            //MessageBox.Show(help, sorry);
-            //panelMainMenu.BringToFront();
-            // below is what this button is supposed to do when feature built
             panelConnect.BringToFront();
         }
 
@@ -207,7 +207,7 @@ namespace FIONA
             labelStatus.BackColor = Color.ForestGreen;
             buttonShareStartStop.Text = "Stop Sharing";
             _connectionStarted = true;
-            test_server.Start();
+            share_server.Start();
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace FIONA
         private void go_offline()
         {
             Console.WriteLine("shutting down server");
-            test_server.Stop();
+            share_server.Stop();
             buttonShareStartStop.BackColor = Color.ForestGreen;
             buttonShareStartStop.ForeColor = Color.GreenYellow;
             labelStatus.Text = "Server Status: Offline";
@@ -288,7 +288,7 @@ namespace FIONA
                 else
                 {
                     Console.WriteLine("starting server");
-                    test_server = new FtpServer(this, Properties.Settings.Default.rootAppVar);
+                    share_server = new FtpServer(this, Properties.Settings.Default.rootAppVar);
                     if (!_connectionStarted)
                     {
                         go_online();
@@ -344,10 +344,10 @@ namespace FIONA
             ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
             //client.directoryListSimple(@"C:\fiona");
 
-            Task<string[]> simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
-            for (int i = 0; i < simpleDirectoryListing.Result.Length; i++)
+            string[] simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
+            for (int i = 0; i < simpleDirectoryListing.Length; i++)
             {
-                Console.WriteLine(simpleDirectoryListing.Result[i]);
+                Console.WriteLine(simpleDirectoryListing[i]);
             }
         }
 
@@ -361,10 +361,10 @@ namespace FIONA
             ftpClient client = new ftpClient(@"localhost:21", "asdf", "");
             //client.directoryListSimple(@"C:\fiona");
 
-            Task<string[]> simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
-            for (int i = 0; i < simpleDirectoryListing.Result.Length; i++)
+            string[] simpleDirectoryListing = client.directoryListDetailed(@"C:\fiona");
+            for (int i = 0; i < simpleDirectoryListing.Length; i++)
             {
-                Console.WriteLine(simpleDirectoryListing.Result[i]);
+                Console.WriteLine(simpleDirectoryListing[i]);
             }
         }
 

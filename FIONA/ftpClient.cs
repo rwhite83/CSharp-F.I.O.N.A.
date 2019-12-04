@@ -140,7 +140,7 @@ namespace FIONA
         }
 
         /* List Directory Contents in Detail (Name, Size, Created, etc.) */
-        async public Task<string[]> directoryListDetailed(string directory)
+        public string[] directoryListDetailed(string directory)
         {
             try
             {
@@ -152,14 +152,12 @@ namespace FIONA
                 ftpRequest.UseBinary = true;
                 ftpRequest.UsePassive = true;
                 ftpRequest.KeepAlive = true;
-                ftpRequest.Timeout = 2000;
                 /* Specify the Type of FTP Request */
                 ftpRequest.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
                 /* Establish Return Communication with the FTP Server */
-                ftpResponse = (FtpWebResponse)await ((Task<WebResponse>)ftpRequest.GetResponseAsync());
+                ftpResponse = (FtpWebResponse)ftpRequest.GetResponse();
 
-
-                //               Thread.Sleep(2000);//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX This is NOT the solution, only a bandaid.
+                Thread.Sleep(2000);//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX This is NOT the solution, only a bandaid.
                 /* Establish Return Communication with the FTP Server */
                 ftpStream = ftpResponse.GetResponseStream();
                 /* Get the FTP Server's Response Stream */
@@ -190,7 +188,7 @@ namespace FIONA
                 try
                 {
                     string[] directoryList = directoryRaw.Split("|".ToCharArray());
-                    return await Task.FromResult(directoryList);
+                    return directoryList;
                 }
                 catch (Exception ex)
                 {
@@ -202,9 +200,7 @@ namespace FIONA
                 Console.WriteLine("Exception in ftpClient directoryListDetailed\nFull try catch" + ex.ToString());
             }
             /* Return an Empty string Array if an Exception Occurs */
-            //return new string[] { "" };
-            return await Task.FromResult(new string[] { "" });
-
+            return new string[] { "" };
         }
     }
 }

@@ -529,10 +529,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1323, 870);
-            this.Controls.Add(this.panelConnect);
             this.Controls.Add(this.panelEntry);
             this.Controls.Add(this.panelMainMenu);
             this.Controls.Add(this.panelShare);
+            this.Controls.Add(this.panelConnect);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Application";
