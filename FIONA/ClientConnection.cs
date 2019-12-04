@@ -10,6 +10,35 @@ using System.Net;
 
 namespace FIONA
 {
+    /**
+     * Authors:
+     *      Kyle Scheffler
+     *      Ross White
+     *      Adrian Yuson
+     *      
+     * Original Tutorial/Reference Code:
+     *      rickbassham/sharp-ftp-server on github
+     *      
+     * ClientConnection class:
+     *      This class is Used to handle ftp commands passed to the server.
+     *      
+     *      Implemented ftp Commands:
+     *          USER - User - UNUSED
+     *          PASS - Password - UNUSED
+     *          CWD  - Change Working Directory
+     *          CDUP - Move to parent directory
+     *          PWD  - Print working directory
+     *          QUIT - Quit
+     *          TYPE - Type
+     *          PORT - Port
+     *          PASV - Passive
+     *          LIST - List
+     *          RETR - Retrieve
+     * 
+     * <summary>
+     * Used to handle ftp commands passed to the server.
+     * </summary>     
+     */
     public class ClientConnection
     {
         private TcpClient _controlClient;
@@ -30,7 +59,7 @@ namespace FIONA
         private StreamWriter _dataWriter;
 
         /// <summary>
-        /// 
+        /// Constructor for the ClientConnection object.
         /// </summary>
         /// <param name="client">client passed from calling ftp server</param>
         /// <param name="root">folder passed in which clients can access</param>
@@ -145,9 +174,8 @@ namespace FIONA
         #region FTP Commands
 
         /// <summary>
-        /// this will need a robust programming when login is implemented
-        /// will need to check if user matches logging in user
-        /// currently just passes back a confirmation
+        /// Validates the user on the server.
+        /// Currently Unimplemented.
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
@@ -159,9 +187,8 @@ namespace FIONA
         }
 
         /// <summary>
-        /// this will need a robust programming when login is implemented
-        /// will need to check if password matches user
-        /// currently just passes back a confirmation
+        /// Validates the password with the server.
+        /// Currently Unimplemented.
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>

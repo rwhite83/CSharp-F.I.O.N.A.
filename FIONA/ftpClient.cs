@@ -9,6 +9,21 @@ using System.Threading;
 
 namespace FIONA
 {
+    /**
+     * Author:
+     *      Kyle Scheffler
+     * 
+     * Original Tutorial/Reference Code:
+     *      metastruct on CodeProject.com
+     *      
+     * ftpClient class:
+     *      Used to act as a client and connect to a currently sharing ftp
+     *      server.
+     * <summary>
+     * Used to act as a client and connect to a currently sharing ftp
+     * server to browse and download files.
+     * </summary>
+     */
     class ftpClient
     {
         private string host = null;
@@ -84,6 +99,13 @@ namespace FIONA
             return;
         }
 
+        /// <summary>
+        /// Requests a simple directory list (names only) from the server.
+        /// directory variable is currently unused since we were unable to get
+        /// past directory listing.
+        /// </summary>
+        /// <param name="directory">Unused.</param>
+        /// <returns></returns>
         public string[] directoryListSimple(string directory)
         {
             try
@@ -140,6 +162,14 @@ namespace FIONA
         }
 
         /* List Directory Contents in Detail (Name, Size, Created, etc.) */
+        /// <summary>
+        /// Requests a detailed directory listing from the server which
+        /// includes the name, size, date created, date modified, etc.
+        /// directory variable is currently unused since we were unable to get
+        /// past directory listing.
+        /// </summary>
+        /// <param name="directory">Unused.</param>
+        /// <returns></returns>
         public string[] directoryListDetailed(string directory)
         {
             try

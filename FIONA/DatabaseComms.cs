@@ -9,10 +9,16 @@ using System.Windows.Forms;
 
 namespace FIONA
 {
-    /// <summary>
-    /// this class is to handle all database communications
-    /// this class and all associated database functionality written by Ross
-    /// </summary>
+    /**
+     * Author:
+     *      Ross White
+     * 
+     * <summary>
+     * this class is to handle all database communications.
+     * This class is currently unused in the application because of integration
+     * issues.
+     * </summary>
+     */
     class DatabaseComms
     {
         /// <summary>
@@ -25,10 +31,9 @@ namespace FIONA
         /// <summary>
         /// attempts to log in the user
         /// if password doesn't match database, login fails with message to user
-        /// 
         /// </summary>
-        /// <param name="email"></param>
-        /// <param name="password"></param>
+        /// <param name="email">The email for the user.</param>
+        /// <param name="password">The password for the user.</param>
         /// <returns></returns>
         public bool login(string email, string password)
         {
@@ -95,6 +100,12 @@ namespace FIONA
             }
         }
 
+        /// <summary>
+        /// Registers a user with the database.
+        /// </summary>
+        /// <param name="email">The email to be registered.</param>
+        /// <param name="password">The password to be registered.</param>
+        /// <returns></returns>
         public bool signup(string email, string password)
         {
             SqlConnection conn = new SqlConnection(@"Data Source=RWHITE83-LAPTOP;Initial Catalog=fiona-db;Integrated Security=True");
@@ -146,6 +157,9 @@ namespace FIONA
             return true;
         }
 
+        /// <summary>
+        /// Resets the stored IP address in the database.
+        /// </summary>
         public void reset_ip()
         {
             SqlConnection conn = new SqlConnection(@"Data Source=RWHITE83-LAPTOP;Initial Catalog=fiona-db;Integrated Security=True");
